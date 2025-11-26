@@ -57,6 +57,14 @@ def cylinder_clear(target, name, radius, depth, location, rotation=(0, 0, 0)):
     bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, location=location, rotation=rotation)
     modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="DIFFERENCE")
 
+def mount_pins(target, name, radius, depth, pins, height_pos=0, rotation=(0, 0, 0)):
+    for i, (x, y) in enumerate(pins):
+        cylinder_add(target=target, name=f"{name}_{i}", radius=radius, depth=depth, location=(x, y, height_pos), rotation=rotation)
+
+def punch_holes(target, name, radius, depth, holes, height_pos=0, rotation=(0, 0, 0)):
+    for i, (x, y) in enumerate(holes):
+        cylinder_clear(target=target, name=f"{name}_{i}", radius=radius, depth=depth, location=(x, y, height_pos), rotation=rotation)
+
 # === hexagon ===========
 
 def hexagon_add(target, name, radius, depth, location, rotation=(0, 0, 0)):
