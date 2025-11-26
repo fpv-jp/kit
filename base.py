@@ -43,13 +43,7 @@ def cube_clear(target, name, scale, location, rotation=(0, 0, 0)):
 # === cylinder ===========
 
 def cylinder_create(name, radius, depth, location=(0, 0, 0), rotation=(0, 0, 0), vertices=32):
-    bpy.ops.mesh.primitive_cylinder_add(
-        radius=radius,
-        depth=depth,
-        vertices=vertices,
-        location=location,
-        rotation=rotation,
-    )
+    bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=vertices, location=location, rotation=rotation)
     obj = bpy.context.object
     obj.name = name
     bpy.ops.object.transform_apply(scale=True)
