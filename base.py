@@ -124,7 +124,7 @@ def join(target, obj):
 # fmt: on
 
 #==========================
-# Example
+#         Example          
 #==========================
 # main base
 MAIN_WIDTH = 35
