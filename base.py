@@ -14,20 +14,33 @@ for area in bpy.context.screen.areas:
 else:
     raise RuntimeError("It appears that no 3D View was found. Please run the script in a 3D View.")
 
-def modifier_apply(obj, target, name, operation):
+def modifier_apply_UNION(obj, target, name, operation):
     modifier = target.modifiers.new(name=name, type="BOOLEAN")
-    modifier.operation = operation
+    modifier.operation = "UNION"
     modifier.object = obj
     bpy.context.view_layer.objects.active = target
     bpy.ops.object.modifier_apply(modifier=modifier.name)
     bpy.data.objects.remove(obj, do_unlink=True)
 
-def primitive_cube_add(target, name, operation, scale, location, rotation=(0, 0, 0)):
+def modifier_apply_DIFFERENCE(obj, target, name, operation):
+    modifier = target.modifiers.new(name=name, type="BOOLEAN")
+    modifier.operation = "DIFFERENCE"
+    modifier.object = obj
+    bpy.context.view_layer.objects.active = target
+    bpy.ops.object.modifier_apply(modifier=modifier.name)
+    bpy.data.objects.remove(obj, do_unlink=True)
+
+
+def add_cube(target, name, operation, scale, location, rotation=(0, 0, 0)):
     bpy.ops.mesh.primitive_cube_add(size=1, scale=scale, location=location, rotation=rotation)
     modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation=operation)
 
 def primitive_cylinder_add(target, name, operation, radius, depth, location, rotation=(0, 0, 0)):
     bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, location=location, rotation=rotation)
+    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation=operation)
+
+def primitive_hexagon_add(target, name, operation, radius, depth, location, rotation=(0, 0, 0)):
+    bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=6, location=location, rotation=rotation)
     modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation=operation)
 
 def primitive_triangle_add(target, name, operation, vertices, depth, location, rotation=(0, 0, 0)):
