@@ -14,36 +14,47 @@ for area in bpy.context.screen.areas:
 else:
     raise RuntimeError("It appears that no 3D View was found. Please run the script in a 3D View.")
 
-def modifier_apply_UNION(obj, target, name, operation):
+def modifier_apply(obj, target, name, operation):
     modifier = target.modifiers.new(name=name, type="BOOLEAN")
-    modifier.operation = "UNION"
+    modifier.operation = operation
     modifier.object = obj
     bpy.context.view_layer.objects.active = target
     bpy.ops.object.modifier_apply(modifier=modifier.name)
     bpy.data.objects.remove(obj, do_unlink=True)
 
-def modifier_apply_DIFFERENCE(obj, target, name, operation):
-    modifier = target.modifiers.new(name=name, type="BOOLEAN")
-    modifier.operation = "DIFFERENCE"
-    modifier.object = obj
-    bpy.context.view_layer.objects.active = target
-    bpy.ops.object.modifier_apply(modifier=modifier.name)
-    bpy.data.objects.remove(obj, do_unlink=True)
+# === cube ===========
 
-
-def add_cube(target, name, operation, scale, location, rotation=(0, 0, 0)):
+def cube_add(target, name, scale, location, rotation=(0, 0, 0)):
     bpy.ops.mesh.primitive_cube_add(size=1, scale=scale, location=location, rotation=rotation)
-    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation=operation)
+    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="UNION")
 
-def primitive_cylinder_add(target, name, operation, radius, depth, location, rotation=(0, 0, 0)):
+def cube_clear(target, name, scale, location, rotation=(0, 0, 0)):
+    bpy.ops.mesh.primitive_cube_add(size=1, scale=scale, location=location, rotation=rotation)
+    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="DIFFERENCE")
+
+# === cylinder ===========
+
+def cylinder_add(target, name, radius, depth, location, rotation=(0, 0, 0)):
     bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, location=location, rotation=rotation)
-    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation=operation)
+    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="UNION")
 
-def primitive_hexagon_add(target, name, operation, radius, depth, location, rotation=(0, 0, 0)):
+def cylinder_clear(target, name, radius, depth, location, rotation=(0, 0, 0)):
+    bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, location=location, rotation=rotation)
+    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="DIFFERENCE")
+
+# === hexagon ===========
+
+def hexagon_add(target, name, radius, depth, location, rotation=(0, 0, 0)):
     bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=6, location=location, rotation=rotation)
-    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation=operation)
+    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="UNION")
 
-def primitive_triangle_add(target, name, operation, vertices, depth, location, rotation=(0, 0, 0)):
+def hexagon_clear(target, name, radius, depth, location, rotation=(0, 0, 0)):
+    bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=6, location=location, rotation=rotation)
+    modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="DIFFERENCE")
+
+# === triangle ===========
+
+def triangle_add(target, name, operation, vertices, depth, location, rotation=(0, 0, 0)):
     mesh = bpy.data.meshes.new("Triangle_Mesh")
 
     bm = bmesh.new()
@@ -66,7 +77,33 @@ def primitive_triangle_add(target, name, operation, vertices, depth, location, r
     bpy.ops.mesh.normals_make_consistent(inside=False)
     bpy.ops.object.mode_set(mode="OBJECT")
 
-    modifier_apply(obj=obj, target=target, name=name, operation=operation)
+    modifier_apply(obj=obj, target=target, name=name, operation="UNION")
+
+def triangle_clear(target, name, operation, vertices, depth, location, rotation=(0, 0, 0)):
+    mesh = bpy.data.meshes.new("Triangle_Mesh")
+
+    bm = bmesh.new()
+    bm_verts = [bm.verts.new(v) for v in vertices]
+    bm.faces.new(bm_verts)
+    bm.to_mesh(mesh)
+    bm.free()
+
+    obj = bpy.data.objects.new("Triangle_Temp", mesh)
+    bpy.context.collection.objects.link(obj)
+
+    obj.location = location
+    obj.rotation_euler = rotation
+    bpy.context.view_layer.objects.active = obj
+    obj.select_set(True)
+
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value": (0, 0, depth)})
+    bpy.ops.mesh.normals_make_consistent(inside=False)
+    bpy.ops.object.mode_set(mode="OBJECT")
+
+    modifier_apply(obj=obj, target=target, name=name, operation="DIFFERENCE")
+
 
 def join(target, obj):
     bpy.ops.object.select_all(action="DESELECT")
