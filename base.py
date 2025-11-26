@@ -4,14 +4,15 @@ import bmesh
 # import mathutils
 
 # fmt: off
-for area in bpy.context.screen.areas:
-    if area.type == "VIEW_3D":
-        with bpy.context.temp_override(area=area):
-            bpy.ops.object.select_all(action="SELECT")
-            bpy.ops.object.delete()
-        break
-else:
-    raise RuntimeError("It appears that no 3D View was found. Please run the script in a 3D View.")
+def init():
+    for area in bpy.context.screen.areas:
+        if area.type == "VIEW_3D":
+            with bpy.context.temp_override(area=area):
+                bpy.ops.object.select_all(action="SELECT")
+                bpy.ops.object.delete()
+            break
+    else:
+        raise RuntimeError("It appears that no 3D View was found. Please run the script in a 3D View.")
 
 def modifier_apply(obj, target, name, operation):
     modifier = target.modifiers.new(name=name, type="BOOLEAN")

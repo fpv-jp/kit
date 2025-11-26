@@ -1,16 +1,21 @@
 import bpy
+import math
 import sys
 import types
-import math
 
-text = bpy.data.texts.get("base.py")
+try:
+    import base
+except ModuleNotFoundError:
+    text = bpy.data.texts.get("base.py")
+    if not text:
+        raise
+    module = types.ModuleType("base")
+    exec(text.as_string(), module.__dict__)
+    sys.modules["base"] = module
+    import base
 
-module_name = "base"
-module = types.ModuleType(module_name)
-exec(text.as_string(), module.__dict__)
-sys.modules[module_name] = module
-
-import base
+# 初期化
+base.init()
 
 # ==========================
 #         Example

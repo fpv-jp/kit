@@ -3,15 +3,6 @@ import math
 import sys
 import types
 
-for area in bpy.context.screen.areas:
-    if area.type == "VIEW_3D":
-        with bpy.context.temp_override(area=area):
-            bpy.ops.object.select_all(action="SELECT")
-            bpy.ops.object.delete()
-        break
-else:
-    raise RuntimeError("It appears that no 3D View was found. Please run the script in a 3D View.")
-
 try:
     import base
 except ModuleNotFoundError:
@@ -22,6 +13,9 @@ except ModuleNotFoundError:
     exec(text.as_string(), module.__dict__)
     sys.modules["base"] = module
     import base
+
+# 初期化
+base.init()
 
 # CM4のサイズに合わせた寸法
 CM4_WIDTH = 55
