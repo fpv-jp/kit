@@ -1,6 +1,6 @@
 import bpy
 import bmesh
-import math
+# import math
 # import mathutils
 
 # fmt: off
@@ -121,63 +121,3 @@ def join(target, obj):
     bpy.context.view_layer.objects.active = target
     bpy.ops.object.join()
 # fmt: on
-
-#==========================
-#         Example          
-#==========================
-# main base
-MAIN_WIDTH = 35
-MAIN_HEIGHT = 40
-MAIN_THICKNESS = 1.5
-main = cube_create(name="main", scale=(MAIN_WIDTH, MAIN_HEIGHT, MAIN_THICKNESS))
-
-# cube booleans
-cube_add(target=main, name="cube_add_demo", scale=(5, 5, 2), location=(10, 10, 0))
-cube_clear(target=main, name="cube_clear_demo", scale=(4, 4, 2), location=(-10, -10, 0))
-
-# plate helpers (list of (scale, location, rotation))
-plate_attach(
-    target=main,
-    name="plate_attach_demo",
-    plates=[((3, 8, 1.5), (0, 15, 0), (0, 0, 0))],
-)
-plate_cutout(
-    target=main,
-    name="plate_cutout_demo",
-    plates=[((3, 8, 1.5), (0, -15, 0), (0, 0, 0))],
-)
-
-# cylinders (direct + helper wrappers)
-cylinder_add(target=main, name="cyl_add_demo", radius=2, depth=4, location=(12, 0, 0))
-cylinder_clear(target=main, name="cyl_clear_demo", radius=2, depth=4, location=(-12, 0, 0))
-mount_pins(target=main, name="mount_pin_demo", radius=1.5, depth=5, pins=[(15, 5)], height_pos=0)
-punch_holes(target=main, name="punch_hole_demo", radius=1.2, depth=5, holes=[(-15, 5)], height_pos=0)
-
-# hexagon booleans
-hexagon_add(target=main, name="hex_add_demo", radius=2.5, depth=3, location=(0, 0, 0))
-hexagon_clear(target=main, name="hex_clear_demo", radius=2, depth=3, location=(0, 0, 1))
-
-# triangle booleans
-triangle_add(
-    target=main,
-    name="tri_add_demo",
-    vertices=[(0, 0, 0), (4, 0, 0), (0, 4, 0)],
-    depth=2,
-    location=(8, -8, 0),
-)
-triangle_clear(
-    target=main,
-    name="tri_clear_demo",
-    vertices=[(0, 0, 0), (3, 0, 0), (0, 3, 0)],
-    depth=2,
-    location=(-8, 8, 0),
-)
-
-# standalone cylinder and join
-standalone_cylinder = cylinder_create(
-    name="standalone_cylinder",
-    radius=2,
-    depth=4,
-    location=(0, 0, 4),
-)
-join(main, standalone_cylinder)
