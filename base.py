@@ -24,6 +24,14 @@ def modifier_apply(obj, target, name, operation):
 
 # === cube ===========
 
+def cube_create(name, scale, location=(0, 0, 0), rotation=(0, 0, 0)):
+    bpy.ops.mesh.primitive_cube_add(size=1, location=location, rotation=rotation)
+    obj = bpy.context.object
+    obj.name = name
+    obj.scale = scale
+    bpy.ops.object.transform_apply(scale=True)
+    return obj
+
 def cube_add(target, name, scale, location, rotation=(0, 0, 0)):
     bpy.ops.mesh.primitive_cube_add(size=1, scale=scale, location=location, rotation=rotation)
     modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="UNION")
@@ -33,6 +41,19 @@ def cube_clear(target, name, scale, location, rotation=(0, 0, 0)):
     modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="DIFFERENCE")
 
 # === cylinder ===========
+
+def cylinder_create(name, radius, depth, location=(0, 0, 0), rotation=(0, 0, 0), vertices=32):
+    bpy.ops.mesh.primitive_cylinder_add(
+        radius=radius,
+        depth=depth,
+        vertices=vertices,
+        location=location,
+        rotation=rotation,
+    )
+    obj = bpy.context.object
+    obj.name = name
+    bpy.ops.object.transform_apply(scale=True)
+    return obj
 
 def cylinder_add(target, name, radius, depth, location, rotation=(0, 0, 0)):
     bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, location=location, rotation=rotation)
@@ -54,7 +75,7 @@ def hexagon_clear(target, name, radius, depth, location, rotation=(0, 0, 0)):
 
 # === triangle ===========
 
-def _triangle_apply(target, name, operation, vertices, depth, location, rotation=(0, 0, 0)):
+def _triangle_apply(target, name, vertices, depth, location, rotation=(0, 0, 0)):
     mesh = bpy.data.meshes.new("Triangle_Mesh")
 
     bm = bmesh.new()
@@ -72,14 +93,15 @@ def _triangle_apply(target, name, operation, vertices, depth, location, rotation
     bpy.context.collection.objects.link(obj)
     obj.location = location
     obj.rotation_euler = rotation
-
-    modifier_apply(obj=obj, target=target, name=name, operation=operation)
+    return obj
 
 def triangle_add(target, name, vertices, depth, location, rotation=(0, 0, 0)):
-    _triangle_apply( target=target, name=name, operation="UNION", vertices=vertices, depth=depth, location=location, rotation=rotation)
+    obj = _triangle_apply( target=target, name=name, vertices=vertices, depth=depth, location=location, rotation=rotation)
+    modifier_apply(obj=obj, target=target, name=name, operation="UNION")
 
 def triangle_clear(target, name, vertices, depth, location, rotation=(0, 0, 0)):
-    _triangle_apply( target=target, name=name, operation="DIFFERENCE", vertices=vertices, depth=depth, location=location, rotation=rotation)
+    obj = _triangle_apply( target=target, name=name, vertices=vertices, depth=depth, location=location, rotation=rotation)
+    modifier_apply(obj=obj, target=target, name=name, operation="DIFFERENCE")
 
 # === join ===========
 
@@ -96,27 +118,18 @@ MAIN_WIDTH = 35
 MAIN_HEIGHT = 40
 MAIN_THICKNESS = 1.5
 
-bpy.ops.mesh.primitive_cube_add(size=1, location=(0, 0, 0))
-main = bpy.context.object
-main.scale = (MAIN_WIDTH, MAIN_HEIGHT, MAIN_THICKNESS)
-bpy.ops.object.transform_apply(scale=True)
-
+main = cube_create(name="main", scale=(MAIN_WIDTH, MAIN_HEIGHT, MAIN_THICKNESS))
 
 # sub -----------------------------------
 SUB_WIDTH = 35
 SUB_HEIGHT = 40
 SUB_THICKNESS = 1.5
 
-bpy.ops.mesh.primitive_cube_add(size=1, location=(0, 0, 0))
-sub = bpy.context.object
-sub.scale = (SUB_WIDTH, SUB_HEIGHT, SUB_THICKNESS)
-bpy.ops.object.transform_apply(scale=True)
-
+sub = cube_create(name="sub", scale=(SUB_WIDTH, SUB_HEIGHT, SUB_THICKNESS))
 
 sub.rotation_euler[0] = math.radians(-75)
 sub.location[1] = -14
 sub.location[2] = 5
-
 
 # join -----------------------------------
 join(main, sub)
