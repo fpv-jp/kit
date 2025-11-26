@@ -1,7 +1,7 @@
 import bpy
 import bmesh
 import math
-import mathutils
+# import mathutils
 
 
 # fmt: off
@@ -39,6 +39,14 @@ def cube_add(target, name, scale, location, rotation=(0, 0, 0)):
 def cube_clear(target, name, scale, location, rotation=(0, 0, 0)):
     bpy.ops.mesh.primitive_cube_add(size=1, scale=scale, location=location, rotation=rotation)
     modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="DIFFERENCE")
+
+def plate_attach(target, name, plates):
+    for i, (scale, location, rotation) in enumerate(plates):
+        cube_add(target=target, name=f"{name}_{i}", scale=scale, location=location, rotation=rotation or (0, 0, 0))
+
+def plate_cutout(target, name, plates):
+    for i, (scale, location, rotation) in enumerate(plates):
+        cube_clear(target=target, name=f"{name}_{i}", scale=scale, location=location, rotation=rotation or (0, 0, 0))
 
 # === cylinder ===========
 
@@ -98,11 +106,11 @@ def _triangle_apply(target, name, vertices, depth, location, rotation=(0, 0, 0))
     return obj
 
 def triangle_add(target, name, vertices, depth, location, rotation=(0, 0, 0)):
-    obj = _triangle_apply( target=target, name=name, vertices=vertices, depth=depth, location=location, rotation=rotation)
+    obj = _triangle_apply(target=target, name=name, vertices=vertices, depth=depth, location=location, rotation=rotation)
     modifier_apply(obj=obj, target=target, name=name, operation="UNION")
 
 def triangle_clear(target, name, vertices, depth, location, rotation=(0, 0, 0)):
-    obj = _triangle_apply( target=target, name=name, vertices=vertices, depth=depth, location=location, rotation=rotation)
+    obj = _triangle_apply(target=target, name=name, vertices=vertices, depth=depth, location=location, rotation=rotation)
     modifier_apply(obj=obj, target=target, name=name, operation="DIFFERENCE")
 
 # === join ===========
