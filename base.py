@@ -3,7 +3,6 @@ import bmesh
 import math
 # import mathutils
 
-
 # fmt: off
 for area in bpy.context.screen.areas:
     if area.type == "VIEW_3D":
