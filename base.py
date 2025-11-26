@@ -54,56 +54,34 @@ def hexagon_clear(target, name, radius, depth, location, rotation=(0, 0, 0)):
 
 # === triangle ===========
 
-def triangle_add(target, name, operation, vertices, depth, location, rotation=(0, 0, 0)):
+def _triangle_apply(target, name, operation, vertices, depth, location, rotation=(0, 0, 0)):
     mesh = bpy.data.meshes.new("Triangle_Mesh")
 
     bm = bmesh.new()
-    bm_verts = [bm.verts.new(v) for v in vertices]
-    bm.faces.new(bm_verts)
+    face = bm.faces.new([bm.verts.new(v) for v in vertices])
+    bm.normal_update()
+
+    extruded = bmesh.ops.extrude_face_region(bm, geom=[face])
+    extruded_verts = [ele for ele in extruded["geom"] if isinstance(ele, bmesh.types.BMVert)]
+    bmesh.ops.translate(bm, verts=extruded_verts, vec=(0, 0, depth))
+
     bm.to_mesh(mesh)
     bm.free()
 
     obj = bpy.data.objects.new("Triangle_Temp", mesh)
     bpy.context.collection.objects.link(obj)
-
     obj.location = location
     obj.rotation_euler = rotation
-    bpy.context.view_layer.objects.active = obj
-    obj.select_set(True)
 
-    bpy.ops.object.mode_set(mode="EDIT")
-    bpy.ops.mesh.select_all(action="SELECT")
-    bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value": (0, 0, depth)})
-    bpy.ops.mesh.normals_make_consistent(inside=False)
-    bpy.ops.object.mode_set(mode="OBJECT")
+    modifier_apply(obj=obj, target=target, name=name, operation=operation)
 
-    modifier_apply(obj=obj, target=target, name=name, operation="UNION")
+def triangle_add(target, name, vertices, depth, location, rotation=(0, 0, 0)):
+    _triangle_apply( target=target, name=name, operation="UNION", vertices=vertices, depth=depth, location=location, rotation=rotation)
 
-def triangle_clear(target, name, operation, vertices, depth, location, rotation=(0, 0, 0)):
-    mesh = bpy.data.meshes.new("Triangle_Mesh")
+def triangle_clear(target, name, vertices, depth, location, rotation=(0, 0, 0)):
+    _triangle_apply( target=target, name=name, operation="DIFFERENCE", vertices=vertices, depth=depth, location=location, rotation=rotation)
 
-    bm = bmesh.new()
-    bm_verts = [bm.verts.new(v) for v in vertices]
-    bm.faces.new(bm_verts)
-    bm.to_mesh(mesh)
-    bm.free()
-
-    obj = bpy.data.objects.new("Triangle_Temp", mesh)
-    bpy.context.collection.objects.link(obj)
-
-    obj.location = location
-    obj.rotation_euler = rotation
-    bpy.context.view_layer.objects.active = obj
-    obj.select_set(True)
-
-    bpy.ops.object.mode_set(mode="EDIT")
-    bpy.ops.mesh.select_all(action="SELECT")
-    bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value": (0, 0, depth)})
-    bpy.ops.mesh.normals_make_consistent(inside=False)
-    bpy.ops.object.mode_set(mode="OBJECT")
-
-    modifier_apply(obj=obj, target=target, name=name, operation="DIFFERENCE")
-
+# === join ===========
 
 def join(target, obj):
     bpy.ops.object.select_all(action="DESELECT")
