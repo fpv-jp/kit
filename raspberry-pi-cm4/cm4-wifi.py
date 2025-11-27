@@ -1,24 +1,19 @@
 import bpy
 import bmesh
 import math
-import mathutils
+import sys
+import types
 
+text = bpy.data.texts.get("base.py")
+module_name = "base"
+module = types.ModuleType(module_name)
+exec(text.as_string(), module.__dict__)
+sys.modules[module_name] = module
 
-def clear_scene():
-    for area in bpy.context.screen.areas:
-        if area.type == "VIEW_3D":
-            with bpy.context.temp_override(area=area):
-                bpy.ops.object.select_all(action="SELECT")
-                bpy.ops.object.delete()
-            break
-    else:
-        raise RuntimeError(
-            "3Dビューが見つかりませんでした。スクリプトを3Dビューで実行してください。"
-        )
+import base
 
-
-clear_scene()
-
+# 初期化
+base.init()
 
 PLATE_WIDTH = 35
 PLATE_HEIGHT = 40
