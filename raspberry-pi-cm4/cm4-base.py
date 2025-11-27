@@ -36,51 +36,23 @@ base.cube_clear(
 
 M3 = 1.85
 
-X_POS = 14
-Y_POS = 20
-
 holes = [
-    (-X_POS, -Y_POS),
-    (X_POS, -Y_POS),
-    (-X_POS, Y_POS),
-    (X_POS, Y_POS),
+    (-14, -20),
+    (14, -20),
+    (-14, 20),
+    (14, 20),
 ]
 
 for i, (x, y) in enumerate(holes):
-    base.cylinder_add(
-        target=main,
-        name=f"ring_outer_{i}",
-        radius=M3 * 2,
-        depth=PLATE_THICKNESS,
-        location=(x, y, 0),
-    )
-    base.cylinder_clear(
-        target=main,
-        name=f"ring_inner_{i}",
-        radius=M3,
-        depth=PLATE_THICKNESS + 1,
-        location=(x, y, 0),
-    )
+    base.cylinder_add(target=main, name=f"ring_outer_{i}", radius=M3 * 2, depth=PLATE_THICKNESS, location=(x, y, 0))
+    base.cylinder_clear(target=main, name=f"ring_inner_{i}", radius=M3, depth=PLATE_THICKNESS + 1, location=(x, y, 0))
 
-base.triangle_add(
-    target=main,
-    name="triangle_left",
-    vertices=[(0, 10, 0), (-6, 0, 0), (0, 0, 0)],
-    depth=PLATE_THICKNESS,
-    location=(10, -17, -PLATE_THICKNESS / 2),
-)
-
-base.triangle_add(
-    target=main,
-    name="triangle_right",
-    vertices=[(0, 10, 0), (6, 0, 0), (0, 0, 0)],
-    depth=PLATE_THICKNESS,
-    location=(-10, -17, -PLATE_THICKNESS / 2),
-)
+base.triangle_add(target=main, name="triangle_left", vertices=[(-5, 0, 0), (0, 20, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(10, -21, -PLATE_THICKNESS / 2))
+base.triangle_add(target=main, name="triangle_right", vertices=[(0, 20, 0), (5, 0, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(-10, -21, -PLATE_THICKNESS / 2))
 
 main.rotation_euler[0] = math.radians(-75)
 main.location[1] = -14
-main.location[2] = 29.5
+main.location[2] = 33
 
 # ----------------------------------------------------
 # ----------------------------------------------------
