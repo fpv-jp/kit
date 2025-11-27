@@ -1,23 +1,24 @@
 import bpy
-import bmesh
 import math
-import mathutils
+from pathlib import Path
+import sys
+import types
 
-
-def clear_scene():
-    for area in bpy.context.screen.areas:
-        if area.type == "VIEW_3D":
-            with bpy.context.temp_override(area=area):
-                bpy.ops.object.select_all(action="SELECT")
-                bpy.ops.object.delete()
-            break
+try:
+    import base
+except ModuleNotFoundError:
+    text = bpy.data.texts.get("base.py")
+    module = types.ModuleType("base")
+    if text:
+        exec(text.as_string(), module.__dict__)
     else:
-        raise RuntimeError(
-            "3Dビューが見つかりませんでした。スクリプトを3Dビューで実行してください。"
-        )
+        base_path = Path(__file__).resolve().parents[1] / "base.py"
+        exec(base_path.read_text(), module.__dict__)
+    sys.modules["base"] = module
+    import base
 
-
-clear_scene()
+# 初期化
+base.init()
 
 plate_width = 63.5
 plate_height = 172
@@ -25,67 +26,7 @@ plate_depth = 2
 
 gap_depth = plate_depth / 2
 
-
-bpy.ops.mesh.primitive_cube_add(size=1, location=(0, 0, 0))
-main = bpy.context.object
-main.scale = (plate_width, plate_height, plate_depth)
-bpy.ops.object.transform_apply(scale=True)
-
-
-def modifier_apply(obj, target, name, operation):
-    modifier = target.modifiers.new(name=name, type="BOOLEAN")
-    modifier.operation = operation
-    modifier.object = obj
-    bpy.context.view_layer.objects.active = target
-    bpy.ops.object.modifier_apply(modifier=modifier.name)
-    bpy.data.objects.remove(obj, do_unlink=True)
-
-
-def primitive_cube_add(target, name, operation, scale, location, rotation=(0, 0, 0)):
-    bpy.ops.mesh.primitive_cube_add(
-        size=1, scale=scale, location=location, rotation=rotation
-    )
-    modifier_apply(
-        obj=bpy.context.active_object, target=target, name=name, operation=operation
-    )
-
-
-def primitive_cylinder_add(
-    target, name, operation, radius, depth, location, rotation=(0, 0, 0)
-):
-    bpy.ops.mesh.primitive_cylinder_add(
-        radius=radius, depth=depth, location=location, rotation=rotation
-    )
-    modifier_apply(
-        obj=bpy.context.active_object, target=target, name=name, operation=operation
-    )
-
-
-def primitive_triangle_add(
-    target, name, operation, vertices, depth, location, rotation=(0, 0, 0)
-):
-    mesh = bpy.data.meshes.new("Triangle_Mesh")
-    bm = bmesh.new()
-    bm_verts = [bm.verts.new(v) for v in vertices]
-    bm.faces.new(bm_verts)
-    bm.to_mesh(mesh)
-    bm.free()
-    obj = bpy.data.objects.new("Triangle_Temp", mesh)
-    bpy.context.collection.objects.link(obj)
-
-    obj.location = location
-    obj.rotation_euler = rotation
-    bpy.context.view_layer.objects.active = obj
-    obj.select_set(True)
-
-    bpy.ops.object.mode_set(mode="EDIT")
-    bpy.ops.mesh.select_all(action="SELECT")
-    bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value": (0, 0, depth)})
-    bpy.ops.mesh.normals_make_consistent(inside=False)
-    bpy.ops.object.mode_set(mode="OBJECT")
-
-    modifier_apply(obj=obj, target=target, name=name, operation=operation)
-
+main = base.cube_create(name="main", scale=(plate_width, plate_height, plate_depth))
 
 M2 = 1.25
 M2_5 = 1.5
@@ -103,10 +44,9 @@ holes = [
 ]
 
 for i, (x, y) in enumerate(holes):
-    primitive_cylinder_add(
+    base.cylinder_clear(
         target=main,
-        name="cylinder",
-        operation="DIFFERENCE",
+        name=f"cylinder_large_{i}",
         radius=M48,
         depth=plate_depth + 1,
         location=(x, y, 0),
@@ -134,20 +74,18 @@ holes = [
 ]
 
 for i, (x, y) in enumerate(holes):
-    primitive_cylinder_add(
+    base.cylinder_clear(
         target=main,
-        name="cylinder",
-        operation="DIFFERENCE",
+        name=f"cylinder_small_{i}",
         radius=M2_5,
         depth=plate_depth + 1,
         location=(x, y, 0),
     )
 
 
-primitive_cube_add(
+base.cube_clear(
     target=main,
-    name="CubeCut",
-    operation="DIFFERENCE",
+    name="cube_cut_center",
     scale=(32, 32, plate_depth + 1),
     location=(0, 5, 0),
     rotation=(0, 0, math.radians(45)),
@@ -162,10 +100,9 @@ holes = [
 ]
 
 for i, (x, y) in enumerate(holes):
-    primitive_triangle_add(
+    base.triangle_clear(
         target=main,
-        name="Triangle",
-        operation="DIFFERENCE",
+        name=f"triangle_cut_1_{i}",
         vertices=[(0, x, 0), (-9, 0, 0), (9, 0, 0)],
         depth=plate_depth + 1,
         location=(0, y, -plate_depth / 1.5),
@@ -173,19 +110,17 @@ for i, (x, y) in enumerate(holes):
 
 vertices = [(0, -20, 0), (-11, 11, 0), (0, 0, 0)]
 
-primitive_triangle_add(
+base.triangle_clear(
     target=main,
-    name="Triangle",
-    operation="DIFFERENCE",
+    name="triangle_cut_2_left",
     vertices=vertices,
     depth=plate_depth + 1,
     location=(-2.5, -23, -plate_depth / 1.5),
 )
 
-primitive_triangle_add(
+base.triangle_clear(
     target=main,
-    name="Triangle",
-    operation="DIFFERENCE",
+    name="triangle_cut_2_right",
     vertices=vertices,
     depth=plate_depth + 1,
     location=(2.5, -23, -plate_depth / 1.5),
@@ -205,10 +140,9 @@ holes = [
 
 
 for i, (x, y) in enumerate(holes):
-    primitive_cube_add(
+    base.cube_clear(
         target=main,
-        name="CubeCut",
-        operation="DIFFERENCE",
+        name=f"cube_cut_corner_{i}",
         scale=(10, 10, plate_depth + 1),
         location=(x, y, 0),
         rotation=(0, 0, math.radians(45)),
@@ -218,56 +152,48 @@ for i, (x, y) in enumerate(holes):
 ant_y = -80
 ant_z = 3
 
-primitive_cylinder_add(
+base.cylinder_add(
     target=main,
-    name="cylinder",
-    operation="UNION",
+    name="antenna_outer",
     radius=3.4,
     depth=12,
-    location=(0, 0 + ant_y, 0 + ant_z),
+    location=(0, ant_y, ant_z),
     rotation=(math.radians(25), 0, 0),
 )
-primitive_cylinder_add(
+base.cylinder_clear(
     target=main,
-    name="cylinder",
-    operation="DIFFERENCE",
+    name="antenna_inner",
     radius=2.15,
     depth=12.1,
-    location=(0, 0 + ant_y, 0 + ant_z),
+    location=(0, ant_y, ant_z),
     rotation=(math.radians(25), 0, 0),
 )
-primitive_cube_add(
+base.cube_clear(
     target=main,
-    name="CubeCut",
-    operation="DIFFERENCE",
+    name="antenna_slot_1",
     scale=(1.5, 3, 20),
-    location=(0, 3 + ant_y, 0 + ant_z),
+    location=(0, 3 + ant_y, ant_z),
+    rotation=(math.radians(25), 0, 0),
+)
+base.cube_clear(
+    target=main,
+    name="antenna_slot_2",
+    scale=(1.5, 3, 20),
+    location=(0, 3 + ant_y, ant_z),
     rotation=(math.radians(25), 0, 0),
 )
 
-primitive_cube_add(
+base.cube_clear(
     target=main,
-    name="CubeCut",
-    operation="DIFFERENCE",
-    scale=(1.5, 3, 20),
-    location=(0, 3 + ant_y, 0 + ant_z),
-    rotation=(math.radians(25), 0, 0),
-)
-
-primitive_cube_add(
-    target=main,
-    name="CubeCut",
-    operation="DIFFERENCE",
+    name="cube_cut_diag",
     scale=(5.5, 3, 4),
     location=(14, -3.9, 0),
     rotation=(0, 0, math.radians(45)),
 )
 
-#####################################
-primitive_cube_add(
+base.cube_clear(
     target=main,
-    name="CubeCut",
-    operation="DIFFERENCE",
+    name="cube_cut_bottom",
     scale=(plate_width, plate_height, 10),
     location=(0, 0, -6),
 )
