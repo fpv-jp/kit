@@ -70,14 +70,11 @@ base.cube_clear(
 
 M3 = 1.85
 
-X_POS = 14
-Y_POS = 20
-
 holes = [
-    (-X_POS, -Y_POS),
-    (X_POS, -Y_POS),
-    (-X_POS, Y_POS),
-    (X_POS, Y_POS),
+    (-14, -20),
+    (14, -20),
+    (-14, 20),
+    (14, 20),
 ]
 
 for i, (x, y) in enumerate(holes):
