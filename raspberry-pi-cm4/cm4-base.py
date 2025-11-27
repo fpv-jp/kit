@@ -35,6 +35,18 @@ base.cube_clear(
     location=(0, 4, 0),
 )
 
+base.cube_add(
+    target=main,
+    name="support",
+    scale=(
+        PLATE_WIDTH,
+        PLATE_THICKNESS/1.25,
+        PLATE_THICKNESS/1.25,
+    ),
+    location=(0, 31.5, -PLATE_THICKNESS/3),
+    rotation=(math.radians(55), 0, 0),
+)
+
 M3 = 1.8
 
 holes = [
@@ -48,16 +60,19 @@ for i, (x, y) in enumerate(holes):
     base.cylinder_add(target=main, name=f"ring_outer_{i}", radius=M3 * 2, depth=PLATE_THICKNESS, location=(x, y, 0))
     base.cylinder_clear(target=main, name=f"ring_inner_{i}", radius=M3, depth=PLATE_THICKNESS + 1, location=(x, y, 0))
 
-base.triangle_add(target=main, name="triangle_left", vertices=[(-5, 0, 0), (0, 20, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(10, -21, -PLATE_THICKNESS / 2))
-base.triangle_add(target=main, name="triangle_right", vertices=[(0, 20, 0), (5, 0, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(-10, -21, -PLATE_THICKNESS / 2))
+base.triangle_add(target=main, name="triangle_left", vertices=[(-5,  0, 0), (0, 20, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(10, -21, -PLATE_THICKNESS / 2))
+base.triangle_add(target=main, name="triangle_right", vertices=[(0, 20, 0), (5,  0, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(-10, -21, -PLATE_THICKNESS / 2))
+
+base.triangle_add(target=main, name="triangle_left", vertices=[(-3, 0, 0), ( 0, -6, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(10, 29, -PLATE_THICKNESS / 2))
+base.triangle_add(target=main, name="triangle_left", vertices=[(0, -6, 0), (3, 0, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(-10, 29, -PLATE_THICKNESS / 2))
 
 main.rotation_euler[0] = math.radians(-75)
 main.location[1] = -14
 main.location[2] = 33
 
-# # ----------------------------------------------------
-# # ----------------------------------------------------
-# # ----------------------------------------------------
+## # ----------------------------------------------------
+## # ----------------------------------------------------
+## # ----------------------------------------------------
 
 BASE_PLATE_WIDTH = 40
 BASE_PLATE_HEIGHT = 30
