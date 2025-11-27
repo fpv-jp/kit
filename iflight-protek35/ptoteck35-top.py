@@ -44,14 +44,14 @@ holes = [
     (-prop_x, -prop_y),
 ]
 
-for i, (x, y) in enumerate(holes):
-    base.cylinder_clear(
-        target=main,
-        name=f"cylinder_large_{i}",
-        radius=M48,
-        depth=plate_depth + 1,
-        location=(x, y, 0),
-    )
+base.punch_holes(
+    target=main,
+    name="cylinder_large",
+    radius=M48,
+    depth=plate_depth + 1,
+    holes=holes,
+    height_pos=0,
+)
 
 
 prop_x1 = 13.75
@@ -74,14 +74,14 @@ holes = [
     (-prop_x3, prop_y3),
 ]
 
-for i, (x, y) in enumerate(holes):
-    base.cylinder_clear(
-        target=main,
-        name=f"cylinder_small_{i}",
-        radius=M2_5,
-        depth=plate_depth + 1,
-        location=(x, y, 0),
-    )
+base.punch_holes(
+    target=main,
+    name="cylinder_small",
+    radius=M2_5,
+    depth=plate_depth + 1,
+    holes=holes,
+    height_pos=0,
+)
 
 
 base.cube_clear(
