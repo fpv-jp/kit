@@ -34,7 +34,7 @@ base.cube_clear(
     location=(0, 4, 0),
 )
 
-M3 = 1.85
+M3 = 1.8
 
 holes = [
     (-14, -20),
@@ -54,9 +54,9 @@ main.rotation_euler[0] = math.radians(-75)
 main.location[1] = -14
 main.location[2] = 33
 
-# ----------------------------------------------------
-# ----------------------------------------------------
-# ----------------------------------------------------
+# # ----------------------------------------------------
+# # ----------------------------------------------------
+# # ----------------------------------------------------
 
 BASE_PLATE_WIDTH = 40
 BASE_PLATE_HEIGHT = 30
@@ -88,26 +88,13 @@ for i, (cx, cy) in enumerate(corner_positions):
         rotation=(0, 0, math.radians(45)),
     )
 
-# 穴径定数
-HOLE_M2_5_RADIUS = 1.5
-HOLE_M3_RADIUS = 1.75
-
-# 基本穴の位置
-MAIN_HOLE_X_SPACING = 15.25
-
-base.cylinder_clear(
+base.punch_holes(
     target=hexagonal_plate,
-    name="hole_pos",
-    radius=HOLE_M3_RADIUS,
-    depth=PLATE_THICKNESS + 5,
-    location=(MAIN_HOLE_X_SPACING, 0, 0),
-)
-base.cylinder_clear(
-    target=hexagonal_plate,
-    name="hole_neg",
-    radius=HOLE_M3_RADIUS,
-    depth=PLATE_THICKNESS + 5,
-    location=(-MAIN_HOLE_X_SPACING, 0, 0),
+    name="mount_hole",
+    radius=M3,
+    depth=PLATE_THICKNESS + 1,
+    height_pos=0,
+    holes=[(15.25, 0), (-15.25, 0)],
 )
 
 base.join(target=main, obj=hexagonal_plate)
