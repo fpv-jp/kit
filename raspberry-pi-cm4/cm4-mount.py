@@ -93,7 +93,7 @@ for i, (x, y, vertices, rotation) in enumerate(triangle_positions):
 # 突起物の寸法
 PROTRUSION_HEIGHT = 21
 PROTRUSION_HEIGHT2 = 10
-PROTRUSION_DEPTH = 13.5
+PROTRUSION_DEPTH = 11.5
 
 protrusion_z = PLATE_THICKNESS + PROTRUSION_DEPTH / 2
 
@@ -117,36 +117,36 @@ base.plate_attach(
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
-# ホールサイズ
-M2_5_HOLE_RADIUS = 1.25 + 0.25
-M3_HOLE_RADIUS = 1.5 + 0.25
+## ホールサイズ
+#M2_5_HOLE_RADIUS = 1.25 + 0.25
+#M3_HOLE_RADIUS = 1.5 + 0.25
 
-# 突起物の固定穴の位置
-hole_z_position = PLATE_THICKNESS + PROTRUSION_DEPTH - M2_5_HOLE_RADIUS * 2
+## 突起物の固定穴の位置
+#hole_z_position = PLATE_THICKNESS + PROTRUSION_DEPTH - M2_5_HOLE_RADIUS * 2
 
-hole_rot_y = (0, math.radians(90), 0)
-hole_rot_x = (math.radians(90), 0, 0)
+#hole_rot_y = (0, math.radians(90), 0)
+#hole_rot_x = (math.radians(90), 0, 0)
 
-hole_locations = [
-    (-protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-    (-protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-    (protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-    (protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-    (7, -protrusion_y, hole_z_position, hole_rot_x),
-    (-7, -protrusion_y, hole_z_position, hole_rot_x),
-    (7, protrusion_y, hole_z_position, hole_rot_x),
-    (-7, protrusion_y, hole_z_position, hole_rot_x),
-]
+#hole_locations = [
+#    (-protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
+#    (-protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
+#    (protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
+#    (protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
+#    (7, -protrusion_y, hole_z_position, hole_rot_x),
+#    (-7, -protrusion_y, hole_z_position, hole_rot_x),
+#    (7, protrusion_y, hole_z_position, hole_rot_x),
+#    (-7, protrusion_y, hole_z_position, hole_rot_x),
+#]
 
-for i, (x, y, z, rot) in enumerate(hole_locations):
-    base.cylinder_clear(
-        target=main_plate,
-        name=f"horizontal_hole_{i}",
-        radius=M2_5_HOLE_RADIUS,
-        depth=PLATE_THICKNESS + 2,
-        location=(x, y, z),
-        rotation=rot,
-    )
+#for i, (x, y, z, rot) in enumerate(hole_locations):
+#    base.cylinder_clear(
+#        target=main_plate,
+#        name=f"horizontal_hole_{i}",
+#        radius=M2_5_HOLE_RADIUS,
+#        depth=PLATE_THICKNESS + 2,
+#        location=(x, y, z),
+#        rotation=rot,
+#    )
 
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
@@ -193,15 +193,13 @@ base.mount_pins(
     ],
 )
 
-M3 = 1.85
-X_POS = 14
-Y_POS = 20
+M3 = 1.8
 
 holes = [
-    (-X_POS, -Y_POS),
-    (X_POS, -Y_POS),
-    (-X_POS, Y_POS),
-    (X_POS, Y_POS),
+    (-14, -20),
+    (14, -20),
+    (-14, 20),
+    (14, 20),
 ]
 
 for i, (x, y) in enumerate(holes):
