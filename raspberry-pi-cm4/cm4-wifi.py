@@ -22,14 +22,14 @@ main = base.cube_create(
     name="main", scale=(PLATE_WIDTH, PLATE_HEIGHT, PLATE_THICKNESS), location=(0, 0, 0)
 )
 
-ARM_HEIGHT = 4.3
+ARM_HEIGHT = 4.5
 ARM_HEIGHT2 = ARM_HEIGHT / 2 + PLATE_THICKNESS / 2
 
 base.cube_add(
     target=main,
     name="arm_outer",
     scale=(PLATE_WIDTH, PLATE_WIDTH, ARM_HEIGHT),
-    location=(0, 0, 2.6),
+    location=(0, 0, ARM_HEIGHT/2),
 )
 
 base.cube_clear(
@@ -40,31 +40,27 @@ base.cube_clear(
         PLATE_WIDTH - PLATE_THICKNESS * 2,
         ARM_HEIGHT,
     ),
-    location=(0, 0, ARM_HEIGHT2),
+    location=(0, 0, ARM_HEIGHT2)
 )
+
+base.cube_clear(target=main, name="arm_inner_2", scale=(20, 26, ARM_HEIGHT), location=(0, -3, 0))
 
 base.cube_clear(
     target=main,
-    name="arm_inner_2",
-    scale=(27.5, 27.5, ARM_HEIGHT),
-    location=(0, 0, 0),
-)
-base.cube_clear(
-    target=main,
     name="arm_inner_corner_1",
-    scale=(10, 7.5, ARM_HEIGHT),
+    scale=(18, 18, ARM_HEIGHT),
     location=(PLATE_WIDTH / 2, PLATE_WIDTH / 2, ARM_HEIGHT2),
 )
 base.cube_clear(
     target=main,
     name="arm_inner_corner_2",
-    scale=(10, 7.5, ARM_HEIGHT),
+    scale=(18, 18, ARM_HEIGHT),
     location=(-PLATE_WIDTH / 2, PLATE_WIDTH / 2, ARM_HEIGHT2),
 )
 base.cube_clear(
     target=main,
     name="arm_inner_back",
-    scale=(21, 21, ARM_HEIGHT),
+    scale=(22, 22, ARM_HEIGHT),
     location=(0, -PLATE_WIDTH / 2, ARM_HEIGHT2),
 )
 
