@@ -1,4 +1,5 @@
 import bpy
+import bmesh
 import math
 import sys
 import types
@@ -63,30 +64,45 @@ BASE_PLATE_HEIGHT = 30
 BASE_PLATE_THICKNESS = 2
 CORNER_CUT_SIZE = 6.5
 
-hexagonal_plate = base.cube_create(
-    name="hexagonal_plate",
-    scale=(BASE_PLATE_WIDTH, BASE_PLATE_HEIGHT, BASE_PLATE_THICKNESS),
-    location=(0, 0, BASE_PLATE_THICKNESS / 2),
-)
+hexagonal_mesh = bpy.data.meshes.new("HexagonalPlate")
+hexagonal_plate = bpy.data.objects.new("HexagonalPlate", hexagonal_mesh)
+bpy.context.collection.objects.link(hexagonal_plate)
+bmesh_obj = bmesh.new()
 
 half_width = BASE_PLATE_WIDTH / 2
 half_height = BASE_PLATE_HEIGHT / 2
-cut_scale = (CORNER_CUT_SIZE * 2, CORNER_CUT_SIZE * 2, BASE_PLATE_THICKNESS * 2)
-corner_positions = [
-    (half_width, half_height),
-    (-half_width, half_height),
-    (half_width, -half_height),
-    (-half_width, -half_height),
+
+hexagon_vertices = [
+    # 上辺
+    (-half_width + CORNER_CUT_SIZE, half_height, 0),
+    (half_width - CORNER_CUT_SIZE, half_height, 0),
+    # 右辺
+    (half_width, half_height / 2 - CORNER_CUT_SIZE, 0),
+    (half_width, -half_height / 2 + CORNER_CUT_SIZE, 0),
+    # 下辺
+    (half_width - CORNER_CUT_SIZE, -half_height, 0),
+    (-half_width + CORNER_CUT_SIZE, -half_height, 0),
+    # 左辺
+    (-half_width, -half_height / 2 + CORNER_CUT_SIZE, 0),
+    (-half_width, half_height / 2 - CORNER_CUT_SIZE, 0),
 ]
 
-for i, (cx, cy) in enumerate(corner_positions):
-    base.cube_clear(
-        target=hexagonal_plate,
-        name=f"corner_cut_{i}",
-        scale=cut_scale,
-        location=(cx, cy, BASE_PLATE_THICKNESS / 2),
-        rotation=(0, 0, math.radians(45)),
-    )
+bmesh_vertices = []
+for vertex in hexagon_vertices:
+    bmesh_vertices.append(bmesh_obj.verts.new(vertex))
+
+bmesh_obj.faces.new(bmesh_vertices)
+extruded_geometry = bmesh.ops.extrude_face_region(bmesh_obj, geom=bmesh_obj.faces[:])
+bmesh.ops.translate(
+    bmesh_obj,
+    vec=(0, 0, BASE_PLATE_THICKNESS),
+    verts=[v for v in extruded_geometry["geom"] if isinstance(v, bmesh.types.BMVert)],
+)
+
+bmesh_obj.normal_update()
+bmesh_obj.faces.ensure_lookup_table()
+bmesh_obj.to_mesh(hexagonal_mesh)
+bmesh_obj.free()
 
 base.punch_holes(
     target=hexagonal_plate,
