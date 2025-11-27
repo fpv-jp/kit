@@ -49,6 +49,7 @@ def plate_cutout(target, name, plates):
         cube_clear(target=target, name=f"{name}_{i}", scale=scale, location=location, rotation=rotation or (0, 0, 0))
 
 # === cylinder ===========
+# The cylinder should be a 32-sided polygon; if it is a 360-sided polygon, it will be difficult to process.
 
 def cylinder_create(name, radius, depth, location=(0, 0, 0), rotation=(0, 0, 0), vertices=32):
     bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=vertices, location=location, rotation=rotation)
@@ -57,21 +58,21 @@ def cylinder_create(name, radius, depth, location=(0, 0, 0), rotation=(0, 0, 0),
     bpy.ops.object.transform_apply(scale=True)
     return obj
 
-def cylinder_add(target, name, radius, depth, location, rotation=(0, 0, 0)):
-    bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, location=location, rotation=rotation)
+def cylinder_add(target, name, radius, depth, location, rotation=(0, 0, 0), vertices=32):
+    bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, location=location, rotation=rotation, vertices=vertices)
     modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="UNION")
 
-def cylinder_clear(target, name, radius, depth, location, rotation=(0, 0, 0)):
-    bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, location=location, rotation=rotation)
+def cylinder_clear(target, name, radius, depth, location, rotation=(0, 0, 0), vertices=32):
+    bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, location=location, rotation=rotation, vertices=vertices)
     modifier_apply(obj=bpy.context.active_object, target=target, name=name, operation="DIFFERENCE")
 
-def mount_pins(target, name, radius, depth, pins, height_pos=0, rotation=(0, 0, 0)):
+def mount_pins(target, name, radius, depth, pins, height_pos=0, rotation=(0, 0, 0), vertices=32):
     for i, (x, y) in enumerate(pins):
-        cylinder_add(target=target, name=f"{name}_{i}", radius=radius, depth=depth, location=(x, y, height_pos), rotation=rotation)
+        cylinder_add(target=target, name=f"{name}_{i}", radius=radius, depth=depth, location=(x, y, height_pos), rotation=rotation, vertices=vertices)
 
-def punch_holes(target, name, radius, depth, holes, height_pos=0, rotation=(0, 0, 0)):
+def punch_holes(target, name, radius, depth, holes, height_pos=0, rotation=(0, 0, 0), vertices=32):
     for i, (x, y) in enumerate(holes):
-        cylinder_clear(target=target, name=f"{name}_{i}", radius=radius, depth=depth, location=(x, y, height_pos), rotation=rotation)
+        cylinder_clear(target=target, name=f"{name}_{i}", radius=radius, depth=depth, location=(x, y, height_pos), rotation=rotation, vertices=vertices)
 
 # === hexagon ===========
 

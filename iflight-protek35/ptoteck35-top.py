@@ -1,21 +1,15 @@
 import bpy
 import math
-from pathlib import Path
 import sys
 import types
 
-try:
-    import base
-except ModuleNotFoundError:
-    text = bpy.data.texts.get("base.py")
-    module = types.ModuleType("base")
-    if text:
-        exec(text.as_string(), module.__dict__)
-    else:
-        base_path = Path(__file__).resolve().parents[1] / "base.py"
-        exec(base_path.read_text(), module.__dict__)
-    sys.modules["base"] = module
-    import base
+text = bpy.data.texts.get("base.py")
+module_name = "base"
+module = types.ModuleType(module_name)
+exec(text.as_string(), module.__dict__)
+sys.modules[module_name] = module
+
+import base
 
 # 初期化
 base.init()
@@ -27,7 +21,6 @@ plate_depth = 2
 gap_depth = plate_depth / 2
 
 main = base.cube_create(name="main", scale=(plate_width, plate_height, plate_depth))
-
 
 M2 = 1.25
 M2_5 = 1.5
@@ -51,8 +44,8 @@ base.punch_holes(
     depth=plate_depth + 1,
     holes=holes,
     height_pos=0,
+    vertices=128,
 )
-
 
 prop_x1 = 13.75
 prop_y1 = 83.0
@@ -82,7 +75,6 @@ base.punch_holes(
     holes=holes,
     height_pos=0,
 )
-
 
 base.cube_clear(
     target=main,
@@ -128,7 +120,6 @@ base.triangle_clear(
     rotation=(0, math.radians(180), 0),
 )
 
-
 prop_x1 = 21.5
 prop_y1 = 86.0
 
@@ -138,7 +129,6 @@ holes = [
     (-prop_x1, prop_y1),
     (-prop_x1, -prop_y1),
 ]
-
 
 for i, (x, y) in enumerate(holes):
     base.cube_clear(
