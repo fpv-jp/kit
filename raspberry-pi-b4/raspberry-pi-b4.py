@@ -48,6 +48,8 @@ for i, (x, y) in enumerate(holes):
     base.cube_add(target=plate, name=f"m2_5_mounting_protrusion_{i}", scale=(x * 2, M2_5 * 4, plate_depth), location=(0, y, 0))
 for i, (x, y) in enumerate(holes):
     base.ring_add(target=plate, name=f"m2_5_ring_{i}", outer_radius=M2_5 * 2, inner_radius=M2_5, location=(x, y, 0), depth=plate_depth)
+for i, (x, y) in enumerate(holes):
+    base.ring_add(target=plate, name=f"m2_5_mount_ring_{i}", outer_radius=M2_5 * 1.75, inner_radius=M2_5, location=(x, y, plate_depth), depth=plate_depth * 1.5)
 
 
 # M3
