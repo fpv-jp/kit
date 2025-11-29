@@ -19,7 +19,7 @@ M2_5 = 1.5
 M3 = 1.75
 
 # プレート寸法
-plate_width = 16.4 * 2
+plate_width = 35
 plate_height = 101.0 + 101.8 + M3 * 2
 plate_depth = 2.8
 
@@ -65,3 +65,103 @@ for i, (x, y) in enumerate(holes2):
     base.cube_add(target=plate, name=f"m3_mounting_protrusion_{i}", scale=(x * 2, M3 * 4, plate_depth), location=(0, y, 0))
 for i, (x, y) in enumerate(holes2):
     base.ring_add(target=plate, name=f"m3_ring_{i}", outer_radius=M3 * 2, inner_radius=M3, location=(x, y, 0), depth=plate_depth)
+
+# ==============================================
+
+x=35
+y=35
+wifi = base.cube_create(
+    name="wifi", scale=(x, y, plate_depth), location=(0, 0, 0)
+)
+
+h = 4
+height = h / 2 + plate_depth / 2
+
+base.cube_add(
+    target=wifi,
+    name="arm_outer",
+    scale=(x, y, h),
+    location=(0, 0, h/2),
+)
+
+base.cube_clear(
+    target=wifi,
+    name="arm_inner_1",
+    scale=(x - 3, y - 3, h),
+    location=(0, 0, height)
+)
+
+base.cube_clear(target=wifi, name="arm_inner_2", scale=(24, 24, h), location=(0, 0, 0))
+
+base.cube_clear(
+    target=wifi,
+    name="arm_inner_corner_1",
+    scale=(18, 18, h),
+    location=(x / 2, -y / 2, height),
+)
+base.cube_clear(
+    target=wifi,
+    name="arm_inner_corner_2",
+    scale=(18, 18, h),
+    location=(-x / 2, -y / 2, height),
+)
+base.cube_clear(
+    target=wifi,
+    name="arm_inner_back",
+    scale=(22, 22, h),
+    location=(0, x / 2, height),
+)
+
+wifi.location=(0, -25, 0)
+
+base.join(plate, wifi)
+
+# ==============================================
+
+x=25
+y=43
+ubec = base.cube_create(
+    name="ubec", scale=(x, y, plate_depth), location=(0, 0, 0)
+)
+
+h = 6
+height = h / 2 + plate_depth / 2
+
+base.cube_add(
+    target=ubec,
+    name="arm_outer",
+    scale=(x, y, h),
+    location=(0, 0, h/2),
+)
+
+base.cube_clear(
+    target=ubec,
+    name="arm_inner_1",
+    scale=(x - 3, y - 3, h),
+    location=(0, 0, height)
+)
+
+base.cube_clear(target=ubec, name="arm_inner_2", scale=(22, 29, h), location=(0, 0, 0))
+
+base.cube_clear(
+    target=ubec,
+    name="arm_inner_corner_1",
+    scale=(10, 10, h),
+    location=(x / 2, -y / 2, height),
+)
+base.cube_clear(
+    target=ubec,
+    name="arm_inner_corner_2",
+    scale=(10, 10, h),
+    location=(-x / 2, -y / 2, height),
+)
+base.cube_clear(
+    target=ubec,
+    name="arm_inner_back",
+    scale=(22, 22, h),
+    location=(0, x / 2, height),
+)
+
+ubec.location=(0, -80, 0)
+
+base.join(plate, ubec)
