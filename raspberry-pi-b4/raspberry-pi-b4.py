@@ -1,23 +1,18 @@
 import bpy
+import math
+import sys
+import types
 
+text = bpy.data.texts.get("base.py")
+module_name = "base"
+module = types.ModuleType(module_name)
+exec(text.as_string(), module.__dict__)
+sys.modules[module_name] = module
 
-def clear_scene():
-    """3Dビューのオブジェクトをすべて削除"""
-    for area in bpy.context.screen.areas:
-        if area.type == "VIEW_3D":
-            with bpy.context.temp_override(area=area):
-                bpy.ops.object.select_all(action="SELECT")
-                bpy.ops.object.delete()
-            break
-    else:
-        raise RuntimeError(
-            "3Dビューが見つかりませんでした。スクリプトを3Dビューで実行してください。"
-        )
+import base
 
-
-# ==== 実行開始 ====
-clear_scene()
-
+# 初期化
+base.init()
 
 # ネジ径定義
 M2 = 1.25
