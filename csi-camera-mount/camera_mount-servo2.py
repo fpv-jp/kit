@@ -20,52 +20,55 @@ M5 = 2.75
 M7 = 3.75
 
 plate_width = 16.4 * 2
-plate_height = 25
+plate_height = 29.5
 plate_depth = 2.8
 
 main = base.cube_create(
     name="main",
     scale=(plate_width, plate_height, plate_depth),
-    location=(0, 0, 0),
+    location=(0, -2.25, 0),
 )
 
 base.cube_clear(
     target=main,
     name="CubeCut",
     scale=(plate_width - 12, plate_height - 12, plate_depth + 1),
-    location=(0, 0, 0),
+    location=(0, -2.25, 0),
 )
 
-y = 14
-base.cube_add(
-    target=main,
-    name="side_left",
-    scale=(11.5, 17, y),
-    location=(22.15, -2, (y-plate_depth)/2),
-)
-base.cube_clear(
-    target=main,
-    name="side_left",
-    scale=(11.5, 17, y),
-    location=(22.15-plate_depth, -2, (y-plate_depth)/2+plate_depth),
-)
-base.cube_clear(
-    target=main,
-    name="side_left",
-    scale=(11.5, 17-plate_depth*3, y),
-    location=(22.15, -2, (y-plate_depth)/2),
-)
+side_height2 = 22.5
 
 #############################################################
 
 side_width = 33.0
 side_height = 18.5
-side_height2 = 22.5
 
 left = base.cube_create(
     name="Cube",
     scale=(plate_depth, side_width, side_height),
     location=(0, 0, 0),
+)
+
+x = 12.5
+y = 23.0
+z = 13.28
+base.cube_add(
+    target=left,
+    name="side_left",
+    scale=(x, y, z),
+    location=(-(x - plate_depth) / 2, 0, -(side_height + z) / 2),
+)
+base.cube_clear(
+    target=left,
+    name="side_left",
+    scale=(x, y, z),
+    location=(-(x - plate_depth) / 2 - plate_depth, 0, -(side_height + z) / 2 + plate_depth),
+)
+base.cube_clear(
+    target=left,
+    name="side_left",
+    scale=(x, y - plate_depth * 4, z),
+    location=(-(x - plate_depth) / 2, 0, -(side_height + z) / 2),
 )
 
 cut_z = 12.5
