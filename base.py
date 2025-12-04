@@ -78,7 +78,7 @@ def punch_holes(target, name, radius, depth, holes, height_pos=0, rotation=(0, 0
     for i, (x, y) in enumerate(holes):
         cylinder_clear(target=target, name=f"{name}_{i}", radius=radius, depth=depth, location=(x, y, height_pos), rotation=rotation, vertices=vertices)
 
-def ring_add(target, name, outer_radius, inner_radius, location, depth, gap=1, rotation=(0, 0, 0), vertices=32):
+def ring_add(target, name, outer_radius, inner_radius, depth, gap=1, location=(0, 0, 0), rotation=(0, 0, 0), vertices=32):
     cylinder_add(target=target, name=f"{name}_outer", radius=outer_radius, depth=depth, location=location, rotation=rotation, vertices=vertices)
     cylinder_clear(target=target, name=f"{name}_inner", radius=inner_radius, depth=depth + gap, location=location, rotation=rotation, vertices=vertices)
 
