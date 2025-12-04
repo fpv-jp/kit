@@ -41,19 +41,19 @@ base.cube_add(
     target=main,
     name="side_left",
     scale=(11.5, 17, y),
-    location=(22.15, -2, (y - plate_depth) / 2),
+    location=(22.15, -2, (y-plate_depth)/2),
 )
 base.cube_clear(
     target=main,
     name="side_left",
     scale=(11.5, 17, y),
-    location=(22.15 - plate_depth, -2, (y - plate_depth) / 2 + plate_depth),
+    location=(22.15-plate_depth, -2, (y-plate_depth)/2+plate_depth),
 )
 base.cube_clear(
     target=main,
     name="side_left",
-    scale=(11.5, 17 - plate_depth * 3, y),
-    location=(22.15, -2, (y - plate_depth) / 2),
+    scale=(11.5, 17-plate_depth*3, y),
+    location=(22.15, -2, (y-plate_depth)/2),
 )
 
 #############################################################
@@ -78,8 +78,8 @@ base.cube_clear(
 )
 
 holes = [
-    (0, 16),
-    (0, -16),
+    (0.0, 16.0),
+    (0.0, -16.0),
 ]
 
 for i, (x, y) in enumerate(holes):
