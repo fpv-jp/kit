@@ -54,20 +54,6 @@ x = 12.3
 y = 23.0
 z = 13.28
 
-base.cube_add(
-    target=left,
-    name="side_left",
-    scale=(plate_depth, 6, 6),
-    location=(0, y / 2, -side_height / 2),
-    rotation=(math.radians(45), 0, 0),
-)
-base.cube_add(
-    target=left,
-    name="side_left",
-    scale=(plate_depth, 6, 6),
-    location=(0, -y / 2, -side_height / 2),
-    rotation=(math.radians(45), 0, 0),
-)
 
 base.cube_add(
     target=left,
@@ -116,9 +102,25 @@ for i, (x, y) in enumerate(holes):
 base.cube_add(
     target=left,
     name="side_left",
-    scale=(plate_depth, 0.75, z + 1),
-    location=(0, 0, 0),
+    scale=(plate_depth, 0.75, z+1),
+    location=(0,0,0),
     rotation=(0, 0, 0),
+)
+
+#---------------------------
+base.cube_add(
+    target=left,
+    name="side_left2",
+    scale=(plate_depth-0.1, 4, 4),
+    location=(0.1, y +2.2, -side_height / 2),
+    rotation=(math.radians(45), 0, 0),
+)
+base.cube_add(
+    target=left,
+    name="side_left2",
+    scale=(plate_depth-0.1, 4, 4),
+    location=(0.1, -y -2.2, -side_height / 2),
+    rotation=(math.radians(45), 0, 0),
 )
 
 left.location = (26.5, -5.5, side_height2 - M5 / 2)
