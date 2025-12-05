@@ -16,6 +16,7 @@ base.init()
 
 M2 = 1.25
 M3 = 1.75
+M4 = 2.25
 M5 = 2.75
 M7 = 3.75
 
@@ -49,9 +50,25 @@ left = base.cube_create(
     location=(0, 0, 0),
 )
 
-x = 12.5
+x = 12.3
 y = 23.0
 z = 13.28
+
+base.cube_add(
+    target=left,
+    name="side_left",
+    scale=(plate_depth, 6, 6),
+    location=(0, y / 2, -side_height / 2),
+    rotation=(math.radians(45), 0, 0),
+)
+base.cube_add(
+    target=left,
+    name="side_left",
+    scale=(plate_depth, 6, 6),
+    location=(0, -y / 2, -side_height / 2),
+    rotation=(math.radians(45), 0, 0),
+)
+
 base.cube_add(
     target=left,
     name="side_left",
@@ -71,7 +88,7 @@ base.cube_clear(
     location=(-(x - plate_depth) / 2, 0, -(side_height + z) / 2),
 )
 
-cut_z = 12.5
+cut_z = 12.3
 cut_y = 23.0
 
 base.cube_clear(
@@ -81,20 +98,28 @@ base.cube_clear(
 )
 
 holes = [
-    (0.0, 16.0),
-    (0.0, -16.0),
+    (0.0, 13.6),
+    (0.0, -13.6),
 ]
 
 for i, (x, y) in enumerate(holes):
     base.ring_add(
         target=left,
         name=f"ring_{i}",
-        outer_radius=M5,
+        outer_radius=M3,
         inner_radius=M2,
         location=(x, y, 0),
         depth=plate_depth,
         rotation=(0, math.pi / 2, 0),
     )
+
+base.cube_add(
+    target=left,
+    name="side_left",
+    scale=(plate_depth, 0.75, z + 1),
+    location=(0, 0, 0),
+    rotation=(0, 0, 0),
+)
 
 left.location = (26.5, -5.5, side_height2 - M5 / 2)
 base.modifier_apply(obj=left, target=main, name="left_union", operation="UNION")
@@ -103,14 +128,14 @@ base.modifier_apply(obj=left, target=main, name="left_union", operation="UNION")
 
 right = base.cube_create(
     name="right",
-    scale=(plate_depth, M5 * 2, side_height2),
+    scale=(plate_depth, M5 * 3, side_height2),
     location=(0, 0, 0),
 )
 
 base.ring_add(
     target=right,
     name="m2_5_ring2",
-    outer_radius=M5,
+    outer_radius=M5 * 1.5,
     inner_radius=2,
     location=(0, 0, side_height2 / 2),
     depth=plate_depth,
