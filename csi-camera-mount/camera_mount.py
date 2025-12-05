@@ -88,7 +88,7 @@ base.cylinder_clear(
     name="Cylinder",
     radius=M3,
     depth=2.5,
-    location=(0, 9, z),
+    location=(0, 10, z),
 )
 
 #############################################################
