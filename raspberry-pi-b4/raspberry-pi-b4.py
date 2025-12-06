@@ -39,7 +39,7 @@ base.cube_clear(
 )
 
 raspi_x = 24.5
-raspi_y = 12.5
+raspi_y = 14.5
 
 # M2.5
 holes = [
