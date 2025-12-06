@@ -14,7 +14,7 @@ def init():
     else:
         raise RuntimeError("It appears that no 3D View was found. Please run the script in a 3D View.")
 
-def modifier_apply(obj, target, name, operation):
+def modifier_apply(obj, target, name, operation="UNION"):
     modifier = target.modifiers.new(name=name, type="BOOLEAN")
     modifier.operation = operation
     modifier.solver = "EXACT"  # more robust for coplanar pieces
