@@ -54,43 +54,6 @@ x = 11.0
 y = 23.0
 z = 15.0
 
-lx = -(x - plate_depth) / 2
-
-# base.cube_add(
-#    target=left,
-#    name="side_left",
-#    scale=(x, y, z),
-#    location=(lx,0,-z),
-# )
-
-# base.cube_clear(
-#    target=left,
-#    name="side_left",
-#    scale=(x, y, z),
-#    location=(lx+plate_depth,0,-z- plate_depth),
-# )
-
-# base.cube_clear(
-#    target=left,
-#    name="side_left",
-#    scale=(x, y- plate_depth*4, z-plate_depth),
-#    location=(lx,0,-z-plate_depth),
-# )
-
-# base.cube_clear(
-#    target=left,
-#    name="side_left",
-#    scale=(x, y, z),
-#    location=(0,0,0),
-##    location=(-(x - plate_depth) / 2 + plate_depth, 0, -(side_height + z) / 2 - plate_depth*2),
-# )
-# base.cube_clear(
-#    target=left,
-#    name="side_left",
-#    scale=(x, y - plate_depth * 4, z),
-#    location=(-(x - plate_depth) / 2, 0, -(side_height + z) / 2),
-# )
-
 cut_z = 12.3
 cut_y = 23.0
 
@@ -129,7 +92,7 @@ base.modifier_apply(obj=left, target=main, name="left_union", operation="UNION")
 
 ##############################################################
 
-x2 = 10.2
+x2 = 9
 y2 = side_width / 2
 z2 = 16.3
 
@@ -146,15 +109,15 @@ base.cube_clear(
 )
 base.cube_add(
     target=left2,
-    name="support",
-    scale=(0.75, y2, z2),
-    location=(-x2 / 2 + 1, 0, (z2 - plate_depth) / 2),
+    name="vvv",
+    scale=(3, y2, plate_depth),
+    location=(-x2, 0, 0),
 )
 
 base.cube_clear(
     target=left2,
     name="side_left",
-    scale=(x2, y2 - plate_depth * 3, z2),
+    scale=(x2, y2 - plate_depth * 4, z2+2),
     location=(-x2 / 2, 0, (z2 - plate_depth) / 2),
 )
 left2.location = (26.5, -5.5, 0)
@@ -216,11 +179,11 @@ base.cube_add(
     target=main,
     name="support",
     scale=(plate_depth, 0.75, h),
-    location=(26.5, -10, (h - plate_depth) / 2),
+    location=(26.5, -11, (h - plate_depth) / 2),
 )
 base.cube_add(
     target=main,
     name="support",
     scale=(plate_depth, 0.75, h),
-    location=(26.5, -20, (h - plate_depth) / 2),
+    location=(26.5, -21, (h - plate_depth) / 2),
 )
