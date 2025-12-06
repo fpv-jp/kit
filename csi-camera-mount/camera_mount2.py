@@ -90,7 +90,7 @@ right = base.cube_create(
 pin_heght = plate_depth + 2
 base.cylinder_add(
     target=right,
-    name=f"Hole",
+    name="Hole",
     radius=M3,
     depth=pin_heght,
     location=(-pin_heght/2 , 0, 0),
