@@ -17,6 +17,9 @@ def init():
 def modifier_apply(obj, target, name, operation):
     modifier = target.modifiers.new(name=name, type="BOOLEAN")
     modifier.operation = operation
+    modifier.solver = "EXACT"  # more robust for coplanar pieces
+    modifier.use_self = True
+    modifier.double_threshold = 0.0001
     modifier.object = obj
     bpy.context.view_layer.objects.active = target
     bpy.ops.object.modifier_apply(modifier=modifier.name)
