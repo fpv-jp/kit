@@ -50,29 +50,46 @@ left = base.cube_create(
     location=(0, 0, 0),
 )
 
-x = 12.3
+x = 11.0
 y = 23.0
-z = 13.28
+z = 15.0
 
+lx = -(x - plate_depth) / 2
 
-base.cube_add(
-    target=left,
-    name="side_left",
-    scale=(x, y, z),
-    location=(-(x - plate_depth) / 2, 0, -(side_height + z) / 2),
-)
-base.cube_clear(
-    target=left,
-    name="side_left",
-    scale=(x, y, z),
-    location=(-(x - plate_depth) / 2 - plate_depth, 0, -(side_height + z) / 2 + plate_depth),
-)
-base.cube_clear(
-    target=left,
-    name="side_left",
-    scale=(x, y - plate_depth * 4, z),
-    location=(-(x - plate_depth) / 2, 0, -(side_height + z) / 2),
-)
+# base.cube_add(
+#    target=left,
+#    name="side_left",
+#    scale=(x, y, z),
+#    location=(lx,0,-z),
+# )
+
+# base.cube_clear(
+#    target=left,
+#    name="side_left",
+#    scale=(x, y, z),
+#    location=(lx+plate_depth,0,-z- plate_depth),
+# )
+
+# base.cube_clear(
+#    target=left,
+#    name="side_left",
+#    scale=(x, y- plate_depth*4, z-plate_depth),
+#    location=(lx,0,-z-plate_depth),
+# )
+
+# base.cube_clear(
+#    target=left,
+#    name="side_left",
+#    scale=(x, y, z),
+#    location=(0,0,0),
+##    location=(-(x - plate_depth) / 2 + plate_depth, 0, -(side_height + z) / 2 - plate_depth*2),
+# )
+# base.cube_clear(
+#    target=left,
+#    name="side_left",
+#    scale=(x, y - plate_depth * 4, z),
+#    location=(-(x - plate_depth) / 2, 0, -(side_height + z) / 2),
+# )
 
 cut_z = 12.3
 cut_y = 23.0
@@ -102,29 +119,46 @@ for i, (x, y) in enumerate(holes):
 base.cube_add(
     target=left,
     name="side_left",
-    scale=(plate_depth, 0.75, z+1),
-    location=(0,0,0),
+    scale=(plate_depth, 0.75, z + 1),
+    location=(0, 0, 0),
     rotation=(0, 0, 0),
-)
-
-#---------------------------
-base.cube_add(
-    target=left,
-    name="side_left2",
-    scale=(plate_depth-0.1, 4, 4),
-    location=(0.1, y +2.2, -side_height / 2),
-    rotation=(math.radians(45), 0, 0),
-)
-base.cube_add(
-    target=left,
-    name="side_left2",
-    scale=(plate_depth-0.1, 4, 4),
-    location=(0.1, -y -2.2, -side_height / 2),
-    rotation=(math.radians(45), 0, 0),
 )
 
 left.location = (26.5, -5.5, side_height2 - M5 / 2)
 base.modifier_apply(obj=left, target=main, name="left_union", operation="UNION")
+
+##############################################################
+
+x2 = 10.2
+y2 = side_width / 2
+z2 = 16.3
+
+left2 = base.cube_create(
+    name="left2",
+    scale=(x2, y2, z2),
+    location=(-x2 / 2, 0, (z2 - plate_depth) / 2),
+)
+base.cube_clear(
+    target=left2,
+    name="side_left",
+    scale=(x2, y2, z2),
+    location=(-x2 / 2 + plate_depth, 0, (z2 - plate_depth) / 2 - plate_depth),
+)
+base.cube_add(
+    target=left2,
+    name="support",
+    scale=(0.75, y2, z2),
+    location=(-x2 / 2 + 1, 0, (z2 - plate_depth) / 2),
+)
+
+base.cube_clear(
+    target=left2,
+    name="side_left",
+    scale=(x2, y2 - plate_depth * 3, z2),
+    location=(-x2 / 2, 0, (z2 - plate_depth) / 2),
+)
+left2.location = (26.5, -5.5, 0)
+base.modifier_apply(obj=left2, target=main, name="left2_union", operation="UNION")
 
 ##############################################################
 
@@ -163,3 +197,30 @@ for i, (x, y) in enumerate(holes):
         location=(x, y, 0),
         depth=plate_depth,
     )
+
+h = 15
+
+base.cube_add(
+    target=main,
+    name="support",
+    scale=(plate_depth, 0.75, h),
+    location=(26.5, 0, (h - plate_depth) / 2),
+)
+base.cube_add(
+    target=main,
+    name="support",
+    scale=(plate_depth, 0.75, h),
+    location=(26.5, 10, (h - plate_depth) / 2),
+)
+base.cube_add(
+    target=main,
+    name="support",
+    scale=(plate_depth, 0.75, h),
+    location=(26.5, -10, (h - plate_depth) / 2),
+)
+base.cube_add(
+    target=main,
+    name="support",
+    scale=(plate_depth, 0.75, h),
+    location=(26.5, -20, (h - plate_depth) / 2),
+)
