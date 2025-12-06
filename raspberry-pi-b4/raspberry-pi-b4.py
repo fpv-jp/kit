@@ -76,7 +76,7 @@ for i, (x, y) in enumerate(holes):
         outer_radius=M2_5 * 1.75,
         inner_radius=M2_5,
         location=(x, y, 1),
-        depth=plate_depth * 1.5,
+        depth=plate_depth * 1.2,
     )
 
 
