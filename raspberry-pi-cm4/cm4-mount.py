@@ -164,8 +164,8 @@ vertices = [(2.5, 0, 0), (0, 2.5, 0), (0, 0, 0)]
 triangle_positions_ = [
     (x1, y1, (math.radians(90), 0, math.radians(180))),
     (-x1, y1 + 4.5, (math.radians(90), 0, 0)),
-    (x1, -y1, (math.radians(90), 0, math.radians(180))),
-    (-x1, -y1 - 4.5, (math.radians(90), 0, 0)),
+    (x1, -y1 - 4.5, (math.radians(90), 0, math.radians(180))),
+    (-x1, -y1 , (math.radians(90), 0, 0)),
 ]
 
 for i, (x, y, rotation) in enumerate(triangle_positions_):
