@@ -24,7 +24,6 @@ PLATE_THICKNESS = 1.5
 
 # 板を作成
 main_plate = base.cube_create(
-    name="main_plate",
     scale=(PLATE_WIDTH, PLATE_HEIGHT, PLATE_THICKNESS),
     location=(0, 0, PLATE_THICKNESS),
 )
@@ -36,7 +35,6 @@ inner_cutout_height = PLATE_HEIGHT * 2 - INNER_CUT_MARGIN * 2
 
 base.cube_cut(
     target=main_plate,
-    name="inner_cutout",
     scale=(inner_cutout_width / 2, inner_cutout_height / 2, PLATE_THICKNESS * 2),
     location=(0, 0, PLATE_THICKNESS / 2),
 )
@@ -59,7 +57,6 @@ triangle_positions = [
 for i, (x, y, vertices, rotation) in enumerate(triangle_positions):
     base.triangle_cut(
         target=main_plate,
-        name=f"triangle_cut_{i}",
         vertices=vertices,
         depth=PLATE_THICKNESS + 2,
         location=(x, y, 0),
@@ -79,7 +76,6 @@ triangle_positions = [
 for i, (x, y, vertices, rotation) in enumerate(triangle_positions):
     base.triangle_add(
         target=main_plate,
-        name=f"triangle_add_{i}",
         vertices=vertices,
         depth=PLATE_THICKNESS,
         location=(x, y, PLATE_THICKNESS / 2),
@@ -100,7 +96,7 @@ pins = [
     (CM4_PIN_OFFSET_X, CM4_PIN_OFFSET_Y),
 ]
 
-PIN_HEIGHT = 5
+PIN_HEIGHT = 5.5
 base.mount_pins(
     target=main_plate,
     radius=2.5,
@@ -122,59 +118,45 @@ base.mount_pins(
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
 
-# 突起物の寸法
 PROTRUSION_HEIGHT = 21
-PROTRUSION_HEIGHT2 = 10
 PROTRUSION_DEPTH = 11.5
 
 protrusion_z = PLATE_THICKNESS + PROTRUSION_DEPTH / 2
 protrusion_x = PLATE_WIDTH / 2 - PLATE_THICKNESS / 2
 protrusion_y = PLATE_HEIGHT / 2 - PLATE_THICKNESS / 2
 
+pos = CM4_HEIGHT / 2 - 3.25
+
 base.plate_attach(
-  target=main_plate,
-  plates=[
-      ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (-protrusion_x, CM4_HEIGHT/2-4.5, protrusion_z), None),
-      ((PLATE_THICKNESS, 3.5, PROTRUSION_DEPTH), (-protrusion_x, -PLATE_WIDTH / 3.5, protrusion_z), None),
-      ((PLATE_THICKNESS, 3.5, PROTRUSION_DEPTH), (protrusion_x, PLATE_WIDTH / 3.5, protrusion_z), None),
-      ((PLATE_THICKNESS, 3.5, PROTRUSION_DEPTH), (protrusion_x, -PLATE_WIDTH / 3.5, protrusion_z), None),
-#      ((PROTRUSION_HEIGHT, PLATE_THICKNESS, PROTRUSION_DEPTH), (0, -protrusion_y, protrusion_z), None),
-#      ((PROTRUSION_HEIGHT, PLATE_THICKNESS, PROTRUSION_DEPTH), (0, protrusion_y, protrusion_z), None),
-  ],
+    target=main_plate,
+    plates=[
+        ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (-protrusion_x, pos, protrusion_z), None),
+        ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (-protrusion_x, -pos, protrusion_z), None),
+        ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (protrusion_x, pos, protrusion_z), None),
+        ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (protrusion_x, -pos, protrusion_z), None),
+    ],
 )
 
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
-## ホールサイズ
-#M2_5_HOLE_RADIUS = 1.25 + 0.25
-#M3_HOLE_RADIUS = 1.5 + 0.25
+x1 = 22
+y1 = 14
+vertices = [(2.5, 0, 0), (0, 2.5, 0), (0, 0, 0)]
 
-## 突起物の固定穴の位置
-#hole_z_position = PLATE_THICKNESS + PROTRUSION_DEPTH - M2_5_HOLE_RADIUS * 2
+triangle_positions = [
+    (x1, y1, (math.radians(90), math.radians(45), 0)),
+    (-x1, y1, (math.radians(90), math.radians(45), math.radians(180))),
+    (x1, -y1, (math.radians(90), math.radians(45), 0)),
+    (-x1, -y1, (math.radians(90), math.radians(45), math.radians(180))),
+]
 
-#hole_rot_y = (0, math.radians(90), 0)
-#hole_rot_x = (math.radians(90), 0, 0)
+for i, (x, y, rotation) in enumerate(triangle_positions):
+    base.triangle_add(
+        target=main_plate,
+        vertices=vertices,
+        depth=4.5,
+        location=(x, y, PROTRUSION_DEPTH),
+        rotation=rotation,
+    )
 
-#hole_locations = [
-#  (-protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-#  (-protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-#  (protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-#  (protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-#  (7, -protrusion_y, hole_z_position, hole_rot_x),
-#  (-7, -protrusion_y, hole_z_position, hole_rot_x),
-#  (7, protrusion_y, hole_z_position, hole_rot_x),
-#  (-7, protrusion_y, hole_z_position, hole_rot_x),
-#]
-
-#for i, (x, y, z, rot) in enumerate(hole_locations):
-#  base.cylinder_cut(
-#      target=main_plate,
-#      radius=M2_5_HOLE_RADIUS,
-#      depth=PLATE_THICKNESS + 2,
-#      location=(x, y, z),
-#      rotation=rot,
-#  )
 
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
