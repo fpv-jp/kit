@@ -88,12 +88,12 @@ for i, (x, y) in enumerate(holes):
         location=(x, y, 0),
     )
 
-# main2 -----------------------------------
+## main2 -----------------------------------
 M3 = 1.75
 M2 = 1.5
 
-MAIN2_WIDTH = 100
-MAIN2_HEIGHT = 80
+MAIN2_WIDTH = 80
+MAIN2_HEIGHT = 100
 MAIN2_THICKNESS = 2.0
 
 main2 = base.cube_create(
@@ -105,20 +105,18 @@ main2 = base.cube_create(
 base.cube_cut(
     target=main2,
     name="CubeCut",
-    scale=(MAIN2_WIDTH - 36, MAIN2_HEIGHT - 10, MAIN2_THICKNESS),
+    scale=(MAIN2_WIDTH - 10, MAIN2_HEIGHT - 36, MAIN2_THICKNESS),
     location=(0, 0, 0),
 )
 
 x = MAIN2_WIDTH / 2
 y = MAIN2_HEIGHT / 2
 
-M = 1.25
-
 holes2 = [
-    (x - (2.6 + M), y - (2.6 + M)),
-    (x - (2.6 + M), -y + (15.6 + M)),
-    (-x + (8.6 + M), y - (2.6 + M)),
-    (-x + (8.6 + M), -y + (15.6 + M)),
+    (x - 18.85, y - 9.85),
+    (x - 18.85, -y + 3.85),
+    (-x + 3.85, y - 9.85),
+    (-x + 3.85, -y + 3.85),
 ]
 
 for i, (x, y) in enumerate(holes2):
@@ -130,9 +128,6 @@ for i, (x, y) in enumerate(holes2):
         location=(x, y, 0),
     )
 
-main2.rotation_euler = (0, 0, math.radians(90))
-main2.location = (0, -3, -7.5)
+main2.location = (0, 3, -7.5)
 
 base.join(main, main2)
-
-# main3 -----------------------------------
