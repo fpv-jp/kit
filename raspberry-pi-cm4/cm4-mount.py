@@ -137,23 +137,23 @@ base.plate_attach(
     ],
 )
 
-x1 = 22
-y1 = 14
-vertices = [(2.5, 0, 0), (0, 2.5, 0), (0, 0, 0)]
+x1 = 27.52
+y1 = 14.5
+vertices = [(3.5, 0, 0), (0, 3.5, 0), (0, 0, 0)]
 
-triangle_positions = [
-    (x1, y1, (math.radians(90), math.radians(45), 0)),
+triangle_positions_ = [
+    (x1, y1 + 4.5, (math.radians(90), math.radians(45), 0)),
     (-x1, y1, (math.radians(90), math.radians(45), math.radians(180))),
     (x1, -y1, (math.radians(90), math.radians(45), 0)),
-    (-x1, -y1, (math.radians(90), math.radians(45), math.radians(180))),
+    (-x1, -y1 - 4.5, (math.radians(90), math.radians(45), math.radians(180))),
 ]
 
-for i, (x, y, rotation) in enumerate(triangle_positions):
+for i, (x, y, rotation) in enumerate(triangle_positions_):
     base.triangle_add(
         target=main_plate,
         vertices=vertices,
         depth=4.5,
-        location=(x, y, PROTRUSION_DEPTH),
+        location=(x, y, PROTRUSION_DEPTH + 1.5),
         rotation=rotation,
     )
 
