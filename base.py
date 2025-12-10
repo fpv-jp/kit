@@ -130,7 +130,7 @@ def triangle_add(target, vertices, depth, name="triangle_add", location=(0, 0, 0
     obj = _triangle_apply(vertices=vertices, depth=depth, location=location, rotation=rotation)
     modifier_apply(target=target, obj=obj, name=name, operation="UNION")
 
-def triangle_clear(target, vertices, depth, name="triangle_clear", location=(0, 0, 0), rotation=(0, 0, 0)):
+def triangle_cut(target, vertices, depth, name="triangle_clear", location=(0, 0, 0), rotation=(0, 0, 0)):
     obj = _triangle_apply(vertices=vertices, depth=depth, location=location, rotation=rotation)
     modifier_apply(target=target, obj=obj, name=name, operation="DIFFERENCE")
 

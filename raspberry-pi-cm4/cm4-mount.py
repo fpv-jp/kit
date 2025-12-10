@@ -20,7 +20,7 @@ CM4_HEIGHT = 40
 MARGIN = 5
 PLATE_WIDTH = CM4_WIDTH + MARGIN
 PLATE_HEIGHT = CM4_HEIGHT + MARGIN
-PLATE_THICKNESS = 2
+PLATE_THICKNESS = 1.5
 
 # 板を作成
 main_plate = base.cube_create(
@@ -41,9 +41,9 @@ base.cube_cut(
     location=(0, 0, PLATE_THICKNESS / 2),
 )
 
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
+## ----------------------------------------------------------------------------------------------------------------
+## ----------------------------------------------------------------------------------------------------------------
+## ----------------------------------------------------------------------------------------------------------------
 
 # 三角形の穴を作成
 x1 = 28.25
@@ -90,28 +90,57 @@ for i, (x, y, vertices, rotation) in enumerate(triangle_positions):
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
 
+CM4_PIN_OFFSET_X = 23.5
+CM4_PIN_OFFSET_Y = 16.5
+
+pins = [
+    (-CM4_PIN_OFFSET_X, -CM4_PIN_OFFSET_Y),
+    (CM4_PIN_OFFSET_X, -CM4_PIN_OFFSET_Y),
+    (-CM4_PIN_OFFSET_X, CM4_PIN_OFFSET_Y),
+    (CM4_PIN_OFFSET_X, CM4_PIN_OFFSET_Y),
+]
+
+PIN_HEIGHT = 5
+base.mount_pins(
+    target=main_plate,
+    radius=2.5,
+    depth=PIN_HEIGHT,
+    height_pos=(PIN_HEIGHT) / 2 + PLATE_THICKNESS,
+    pins=pins,
+)
+
+PIN_HEIGHT = 8
+base.mount_pins(
+    target=main_plate,
+    radius=0.85,
+    depth=PIN_HEIGHT,
+    height_pos=(PIN_HEIGHT) / 2 + PLATE_THICKNESS,
+    pins=pins,
+)
+
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
+
 # 突起物の寸法
 PROTRUSION_HEIGHT = 21
 PROTRUSION_HEIGHT2 = 10
 PROTRUSION_DEPTH = 11.5
 
 protrusion_z = PLATE_THICKNESS + PROTRUSION_DEPTH / 2
-
 protrusion_x = PLATE_WIDTH / 2 - PLATE_THICKNESS / 2
-
 protrusion_y = PLATE_HEIGHT / 2 - PLATE_THICKNESS / 2
 
 base.plate_attach(
-    target=main_plate,
-    name="protrusions",
-    plates=[
-        ((PLATE_THICKNESS, PROTRUSION_HEIGHT2, PROTRUSION_DEPTH), (-protrusion_x, PLATE_WIDTH / 4.5, protrusion_z), None),
-        ((PLATE_THICKNESS, PROTRUSION_HEIGHT2, PROTRUSION_DEPTH), (-protrusion_x, -PLATE_WIDTH / 4.5, protrusion_z), None),
-        ((PLATE_THICKNESS, PROTRUSION_HEIGHT2, PROTRUSION_DEPTH), (protrusion_x, PLATE_WIDTH / 4.5, protrusion_z), None),
-        ((PLATE_THICKNESS, PROTRUSION_HEIGHT2, PROTRUSION_DEPTH), (protrusion_x, -PLATE_WIDTH / 4.5, protrusion_z), None),
-        ((PROTRUSION_HEIGHT, PLATE_THICKNESS, PROTRUSION_DEPTH), (0, -protrusion_y, protrusion_z), None),
-        ((PROTRUSION_HEIGHT, PLATE_THICKNESS, PROTRUSION_DEPTH), (0, protrusion_y, protrusion_z), None),
-    ],
+  target=main_plate,
+  plates=[
+      ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (-protrusion_x, CM4_HEIGHT/2-4.5, protrusion_z), None),
+      ((PLATE_THICKNESS, 3.5, PROTRUSION_DEPTH), (-protrusion_x, -PLATE_WIDTH / 3.5, protrusion_z), None),
+      ((PLATE_THICKNESS, 3.5, PROTRUSION_DEPTH), (protrusion_x, PLATE_WIDTH / 3.5, protrusion_z), None),
+      ((PLATE_THICKNESS, 3.5, PROTRUSION_DEPTH), (protrusion_x, -PLATE_WIDTH / 3.5, protrusion_z), None),
+#      ((PROTRUSION_HEIGHT, PLATE_THICKNESS, PROTRUSION_DEPTH), (0, -protrusion_y, protrusion_z), None),
+#      ((PROTRUSION_HEIGHT, PLATE_THICKNESS, PROTRUSION_DEPTH), (0, protrusion_y, protrusion_z), None),
+  ],
 )
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -128,70 +157,80 @@ base.plate_attach(
 #hole_rot_x = (math.radians(90), 0, 0)
 
 #hole_locations = [
-#    (-protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-#    (-protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-#    (protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-#    (protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
-#    (7, -protrusion_y, hole_z_position, hole_rot_x),
-#    (-7, -protrusion_y, hole_z_position, hole_rot_x),
-#    (7, protrusion_y, hole_z_position, hole_rot_x),
-#    (-7, protrusion_y, hole_z_position, hole_rot_x),
+#  (-protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
+#  (-protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
+#  (protrusion_x, PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
+#  (protrusion_x, -PLATE_WIDTH / 4.5, hole_z_position, hole_rot_y),
+#  (7, -protrusion_y, hole_z_position, hole_rot_x),
+#  (-7, -protrusion_y, hole_z_position, hole_rot_x),
+#  (7, protrusion_y, hole_z_position, hole_rot_x),
+#  (-7, protrusion_y, hole_z_position, hole_rot_x),
 #]
 
 #for i, (x, y, z, rot) in enumerate(hole_locations):
-#    base.cylinder_cut(
-#        target=main_plate,
-#        name=f"horizontal_hole_{i}",
-#        radius=M2_5_HOLE_RADIUS,
-#        depth=PLATE_THICKNESS + 2,
-#        location=(x, y, z),
-#        rotation=rot,
-#    )
+#  base.cylinder_cut(
+#      target=main_plate,
+#      radius=M2_5_HOLE_RADIUS,
+#      depth=PLATE_THICKNESS + 2,
+#      location=(x, y, z),
+#      rotation=rot,
+#  )
 
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
 
-# ピンサイズ
-# M2_PIN_RADIUS = 0.85
-M2_PIN_RADIUS = 2.5
+PLATE_WIDTH = 35
+PLATE_HEIGHT = 40
+PLATE_THICKNESS = 1.5
 
-# CM4固定用ピン
-# PIN_HEIGHT = 5.5
-PIN_HEIGHT = 2.2
-CM4_PIN_OFFSET_X = 23.5
-CM4_PIN_OFFSET_Y = 16.5
-
-base.mount_pins(
-    target=main_plate,
-    name="cm4_pins_big",
-    radius=M2_PIN_RADIUS,
-    depth=PIN_HEIGHT,
-    height_pos=4,
-    pins=[
-        (-CM4_PIN_OFFSET_X, -CM4_PIN_OFFSET_Y),
-        (CM4_PIN_OFFSET_X, -CM4_PIN_OFFSET_Y),
-        (-CM4_PIN_OFFSET_X, CM4_PIN_OFFSET_Y),
-        (CM4_PIN_OFFSET_X, CM4_PIN_OFFSET_Y),
-    ],
+main = base.cube_create(
+    name="main", scale=(PLATE_WIDTH, PLATE_HEIGHT, PLATE_THICKNESS), location=(0, 0, 0)
 )
 
-M2_PIN_RADIUS = 0.85
-PIN_HEIGHT = 6
+ARM_HEIGHT = 4.5
+ARM_HEIGHT2 = ARM_HEIGHT / 2 + PLATE_THICKNESS / 2
 
-base.mount_pins(
-    target=main_plate,
-    name="cm4_pins_small",
-    radius=M2_PIN_RADIUS,
-    depth=PIN_HEIGHT,
-    height_pos=PIN_HEIGHT,
-    pins=[
-        (-CM4_PIN_OFFSET_X, -CM4_PIN_OFFSET_Y),
-        (CM4_PIN_OFFSET_X, -CM4_PIN_OFFSET_Y),
-        (-CM4_PIN_OFFSET_X, CM4_PIN_OFFSET_Y),
-        (CM4_PIN_OFFSET_X, CM4_PIN_OFFSET_Y),
-    ],
+base.cube_add(
+    target=main,
+    scale=(PLATE_WIDTH, PLATE_WIDTH, ARM_HEIGHT),
+    location=(0, 0, ARM_HEIGHT / 2),
 )
+
+base.cube_cut(
+    target=main,
+    scale=(
+        PLATE_WIDTH - PLATE_THICKNESS * 2,
+        PLATE_WIDTH - PLATE_THICKNESS * 2,
+        ARM_HEIGHT,
+    ),
+    location=(0, 0, ARM_HEIGHT2),
+)
+
+base.cube_cut(target=main, scale=(20, 26, ARM_HEIGHT), location=(0, -3, 0))
+
+base.cube_cut(
+    target=main,
+    scale=(18, 18, ARM_HEIGHT),
+    location=(PLATE_WIDTH / 2, PLATE_WIDTH / 2, ARM_HEIGHT2),
+)
+base.cube_cut(
+    target=main,
+    scale=(18, 18, ARM_HEIGHT),
+    location=(-PLATE_WIDTH / 2, PLATE_WIDTH / 2, ARM_HEIGHT2),
+)
+base.cube_cut(
+    target=main,
+    scale=(22, 22, ARM_HEIGHT),
+    location=(0, -PLATE_WIDTH / 2, ARM_HEIGHT2),
+)
+
+main.location = (0, 0, PLATE_THICKNESS)
+base.join(main, main_plate)
+
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
 
 M3 = 1.8
 
@@ -203,17 +242,10 @@ holes = [
 ]
 
 for i, (x, y) in enumerate(holes):
-    base.cylinder_add(
-        target=main_plate,
-        name=f"ring_outer_{i}",
-        radius=M3 * 2,
-        depth=PLATE_THICKNESS,
+    base.ring_add(
+        target=main,
+        outer_radius=M3 * 2,
+        inner_radius=M3,
         location=(x, y, PLATE_THICKNESS),
-    )
-    base.cylinder_cut(
-        target=main_plate,
-        name=f"ring_inner_{i}",
-        radius=M3,
-        depth=10,
-        location=(x, y, 0),
+        depth=PLATE_THICKNESS,
     )
