@@ -96,7 +96,7 @@ pins = [
     (CM4_PIN_OFFSET_X, CM4_PIN_OFFSET_Y),
 ]
 
-PIN_HEIGHT = 5.5
+PIN_HEIGHT = 8.5
 base.mount_pins(
     target=main_plate,
     radius=2.5,
@@ -105,7 +105,7 @@ base.mount_pins(
     pins=pins,
 )
 
-PIN_HEIGHT = 8
+PIN_HEIGHT = 11
 base.mount_pins(
     target=main_plate,
     radius=0.85,
@@ -118,28 +118,29 @@ base.mount_pins(
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
 
-PROTRUSION_HEIGHT = 21
-PROTRUSION_DEPTH = 11.5
 
-protrusion_z = PLATE_THICKNESS + PROTRUSION_DEPTH / 2
-protrusion_x = PLATE_WIDTH / 2 - PLATE_THICKNESS / 2
-protrusion_y = PLATE_HEIGHT / 2 - PLATE_THICKNESS / 2
+CLAW_X = 2.5
+CLAW_Y = 4.5
+CLAW_Z = 14.5
+scale = (CLAW_X, CLAW_Y, CLAW_Z)
 
-pos = CM4_HEIGHT / 2 - 3.25
+CLAW_POS_X = (CM4_WIDTH + CLAW_X) / 2
+CLAW_POS_Y = 16.75
+CLAW_POS_Z = (CLAW_Z + PLATE_THICKNESS) / 2
 
 base.plate_attach(
     target=main_plate,
     plates=[
-        ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (-protrusion_x, pos, protrusion_z), None),
-        ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (-protrusion_x, -pos, protrusion_z), None),
-        ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (protrusion_x, pos, protrusion_z), None),
-        ((PLATE_THICKNESS, 4.5, PROTRUSION_DEPTH), (protrusion_x, -pos, protrusion_z), None),
+        (scale, (CLAW_POS_X, CLAW_POS_Y, CLAW_POS_Z), None),
+        (scale, (-CLAW_POS_X, CLAW_POS_Y, CLAW_POS_Z), None),
+        (scale, (CLAW_POS_X, -CLAW_POS_Y, CLAW_POS_Z), None),
+        (scale, (-CLAW_POS_X, -CLAW_POS_Y, CLAW_POS_Z), None),
     ],
 )
 
-x1 = 27.52
+x1 = 26.85
 y1 = 14.5
-vertices = [(3.5, 0, 0), (0, 3.5, 0), (0, 0, 0)]
+vertices = [(4.5, 0, 0), (0, 4.5, 0), (0, 0, 0)]
 
 triangle_positions_ = [
     (x1, y1 + 4.5, (math.radians(90), math.radians(45), 0)),
@@ -153,7 +154,7 @@ for i, (x, y, rotation) in enumerate(triangle_positions_):
         target=main_plate,
         vertices=vertices,
         depth=4.5,
-        location=(x, y, PROTRUSION_DEPTH + 1.5),
+        location=(x, y, CLAW_Z + 1.5),
         rotation=rotation,
     )
 
