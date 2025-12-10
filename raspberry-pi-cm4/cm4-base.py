@@ -20,13 +20,10 @@ PLATE_HEIGHT = 58
 
 PLATE_THICKNESS = 4
 
-main = base.cube_create(
-    name="main", scale=(PLATE_WIDTH, PLATE_HEIGHT, PLATE_THICKNESS), location=(0, 4, 0)
-)
+main = base.cube_create(scale=(PLATE_WIDTH, PLATE_HEIGHT, PLATE_THICKNESS), location=(0, 4, 0))
 
 base.cube_cut(
     target=main,
-    name="inner_cut",
     scale=(
         PLATE_WIDTH - PLATE_THICKNESS * 2,
         PLATE_HEIGHT - PLATE_THICKNESS * 2,
@@ -37,13 +34,12 @@ base.cube_cut(
 
 base.cube_add(
     target=main,
-    name="support",
     scale=(
         PLATE_WIDTH,
-        PLATE_THICKNESS/1.25,
-        PLATE_THICKNESS/1.25,
+        PLATE_THICKNESS / 1.25,
+        PLATE_THICKNESS / 1.25,
     ),
-    location=(0, 31.5, -PLATE_THICKNESS/3),
+    location=(0, 31.5, -PLATE_THICKNESS / 3),
     rotation=(math.radians(55), 0, 0),
 )
 
@@ -57,14 +53,39 @@ holes = [
 ]
 
 for i, (x, y) in enumerate(holes):
-    base.cylinder_add(target=main, name=f"ring_outer_{i}", radius=M3 * 2, depth=PLATE_THICKNESS, location=(x, y, 0))
-    base.cylinder_cut(target=main, name=f"ring_inner_{i}", radius=M3, depth=PLATE_THICKNESS + 1, location=(x, y, 0))
+    base.ring_add(
+        target=main,
+        outer_radius=M3 * 2,
+        inner_radius=M3,
+        location=(x, y, 0),
+        depth=PLATE_THICKNESS,
+    )
 
-base.triangle_add(target=main, name="triangle_left", vertices=[(-5,  0, 0), (0, 20, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(10, -21, -PLATE_THICKNESS / 2))
-base.triangle_add(target=main, name="triangle_right", vertices=[(0, 20, 0), (5,  0, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(-10, -21, -PLATE_THICKNESS / 2))
+base.triangle_add(
+    target=main,
+    vertices=[(-5, 0, 0), (0, 20, 0), (0, 0, 0)],
+    depth=PLATE_THICKNESS,
+    location=(10, -21, -PLATE_THICKNESS / 2),
+)
+base.triangle_add(
+    target=main,
+    vertices=[(0, 20, 0), (5, 0, 0), (0, 0, 0)],
+    depth=PLATE_THICKNESS,
+    location=(-10, -21, -PLATE_THICKNESS / 2),
+)
 
-base.triangle_add(target=main, name="triangle_left", vertices=[(-3, 0, 0), ( 0, -6, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(10, 29, -PLATE_THICKNESS / 2))
-base.triangle_add(target=main, name="triangle_left", vertices=[(0, -6, 0), (3, 0, 0), (0, 0, 0)], depth=PLATE_THICKNESS, location=(-10, 29, -PLATE_THICKNESS / 2))
+base.triangle_add(
+    target=main,
+    vertices=[(-3, 0, 0), (0, -6, 0), (0, 0, 0)],
+    depth=PLATE_THICKNESS,
+    location=(10, 29, -PLATE_THICKNESS / 2),
+)
+base.triangle_add(
+    target=main,
+    vertices=[(0, -6, 0), (3, 0, 0), (0, 0, 0)],
+    depth=PLATE_THICKNESS,
+    location=(-10, 29, -PLATE_THICKNESS / 2),
+)
 
 main.rotation_euler[0] = math.radians(-75)
 main.location[1] = -14
@@ -121,7 +142,6 @@ bmesh_obj.free()
 
 base.punch_holes(
     target=hexagonal_plate,
-    name="mount_hole",
     radius=M3,
     depth=PLATE_THICKNESS + 1,
     height_pos=0,

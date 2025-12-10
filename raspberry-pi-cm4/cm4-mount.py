@@ -192,7 +192,7 @@ PLATE_HEIGHT = 40
 PLATE_THICKNESS = 1.5
 
 main = base.cube_create(
-    name="main", scale=(PLATE_WIDTH, PLATE_HEIGHT, PLATE_THICKNESS), location=(0, 0, 0)
+    scale=(PLATE_WIDTH, PLATE_HEIGHT, PLATE_THICKNESS), location=(0, 0, 0)
 )
 
 ARM_HEIGHT = 4.5
