@@ -18,12 +18,12 @@ base.init()
 M3 = 1.75
 M2 = 1.5
 
-MAIN_WIDTH = 100
-MAIN_HEIGHT = 80
+MAIN_WIDTH = 100.0
+MAIN_HEIGHT = 80.0
 MAIN_DEPTH = 13.5
 MAIN_THICKNESS = 2.0
 
-MAIN_SHRINK = 2
+MAIN_SHRINK = 2.0
 
 C = MAIN_THICKNESS + 1
 
@@ -83,8 +83,8 @@ base.cube_cut(
 
 ## mount -----------------------------------
 
-x = MAIN_WIDTH / 2
-y = MAIN_HEIGHT / 2
+x = MAIN_WIDTH / 2.0
+y = MAIN_HEIGHT / 2.0
 
 M = 1.25
 
@@ -123,7 +123,7 @@ base.cube_cut(
     location=(d - x / 2, y / 2, -z / 2),
 )
 
-x = 16.5
+x = 16.7
 y = 21.5
 z = 15.3 - 1.5
 
@@ -136,7 +136,7 @@ base.cube_cut(
     location=(d - x / 2, y / 2, -z / 2),
 )
 
-x = 13.5
+x = 13.2
 y = 17.5
 z = 17.2 - 1.5
 
@@ -150,7 +150,7 @@ base.cube_cut(
 )
 
 
-x = 13.5
+x = 13.2
 y = 10.0
 z = 8.5 - 1.5
 
@@ -165,7 +165,7 @@ base.cube_cut(
 
 
 x = 15.5
-y = 10
+y = 10.0
 z = 7.8 - 1.5
 
 d = 83.25
@@ -178,7 +178,7 @@ base.cube_cut(
 )
 
 x = 9.5
-y = 10
+y = 10.0
 z = 4.8 - 1.5
 
 d = 97.5

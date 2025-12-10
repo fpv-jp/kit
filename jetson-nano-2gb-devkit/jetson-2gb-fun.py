@@ -95,6 +95,6 @@ for i, (x, y) in enumerate(holes2):
         name=f"m3_ring_{i}",
         outer_radius=M3 * 2,
         inner_radius=M3,
-        location=(x, y, (7.5 - MAIN_THICKNESS) / 2),
-        depth=7.5,
+        location=(x, y, (9.0 - MAIN_THICKNESS) / 2),
+        depth=9.0,
     )
