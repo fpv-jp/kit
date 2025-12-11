@@ -26,14 +26,12 @@ plate_depth = 2.8
 
 # プレート作成
 plate = base.cube_create(
-    name="plate",
     scale=(plate_width, plate_height, plate_depth),
     location=(0, 0, 0),
 )
 
 base.cube_cut(
     target=plate,
-    name="UpperCornerCut",
     scale=(plate_width - M3 * 10, plate_height - M3 * 8, plate_depth),
     location=(0, 0, 0),
 )
@@ -51,20 +49,17 @@ holes = [
 
 base.cube_add(
     target=plate,
-    name="m2_5_mounting_protrusion_1",
     scale=(raspi_x * 2, M2_5 * 4, plate_depth),
     location=(0, raspi_y + 58.0, 0),
 )
 base.cube_add(
     target=plate,
-    name="m2_5_mounting_protrusion_2",
     scale=(raspi_x * 2, M2_5 * 4, plate_depth),
     location=(0, raspi_y, 0),
 )
 for i, (x, y) in enumerate(holes):
     base.ring_add(
         target=plate,
-        name=f"m2_5_ring_{i}",
         outer_radius=M2_5 * 2,
         inner_radius=M2_5,
         location=(x, y, 0),
@@ -72,7 +67,6 @@ for i, (x, y) in enumerate(holes):
     )
     base.ring_add(
         target=plate,
-        name=f"m2_5_mount_ring_{i}",
         outer_radius=M2_5 * 1.75,
         inner_radius=M2_5,
         location=(x, y, 1),
@@ -94,20 +88,17 @@ holes2 = [
 
 base.cube_add(
     target=plate,
-    name="m3_mounting_protrusion_1",
     scale=(16.4 * 2, M3 * 4, plate_depth),
     location=(0, 101.0, 0),
 )
 base.cube_add(
     target=plate,
-    name="m3_mounting_protrusion_2",
     scale=(18.9 * 2, M3 * 4, plate_depth),
     location=(0, -101.8, 0),
 )
 for i, (x, y) in enumerate(holes2):
     base.ring_add(
         target=plate,
-        name=f"m3_ring_{i}",
         outer_radius=M3 * 2,
         inner_radius=M3,
         location=(x, y, 0),
@@ -122,14 +113,12 @@ holes3 = [
 ]
 base.cube_add(
     target=plate,
-    name="m3_mounting_protrusion_1",
     scale=(28.0 * 2, M5 * 4, plate_depth),
     location=(0, center_y, 0),
 )
 for i, (x, y) in enumerate(holes3):
     base.ring_add(
         target=plate,
-        name=f"m3_ring_{i}",
         outer_radius=M5 * 2,
         inner_radius=M5,
         location=(x, y, 0),
@@ -143,42 +132,35 @@ y = 35
 h = 5
 
 wifi = base.cube_create(
-    name="arm_outer",
     scale=(x, y, h),
 )
 base.cube_cut(
     target=wifi,
-    name="arm_inner_1",
     scale=(x - 3, y - 3, h),
 )
 
 base.cube_cut(
     target=wifi,
-    name="arm_inner_corner_1",
     scale=(18, 18, h),
     location=(x / 2, -y / 2, 0),
 )
 base.cube_cut(
     target=wifi,
-    name="arm_inner_corner_2",
     scale=(18, 18, h),
     location=(-x / 2, -y / 2, 0),
 )
 base.cube_cut(
     target=wifi,
-    name="arm_inner_back",
     scale=(22, 22, h),
     location=(0, x / 2, 0),
 )
 base.cube_add(
     target=wifi,
-    name="arm_inner_1",
     scale=(x, y, plate_depth),
     location=(0, 0, (plate_depth - h) / 2),
 )
 base.cube_cut(
     target=wifi,
-    name="arm_inner_1",
     scale=(x - 12, y - 12, plate_depth + 1),
     location=(0, 0, (plate_depth - h) / 2),
 )
@@ -193,43 +175,36 @@ y = 43
 h = 11
 
 ubec = base.cube_create(
-    name="ubec",
     scale=(x, y, h),
 )
 
 base.cube_cut(
     target=ubec,
-    name="arm_inner_1",
     scale=(x - 3, y - 3, h),
 )
 
 base.cube_cut(
     target=ubec,
-    name="arm_inner_corner_1",
     scale=(10, 10, h),
     location=(x / 2, -y / 2, 0),
 )
 base.cube_cut(
     target=ubec,
-    name="arm_inner_corner_2",
     scale=(10, 10, h),
     location=(-x / 2, -y / 2, 0),
 )
 base.cube_cut(
     target=ubec,
-    name="arm_inner_back",
     scale=(22, 22, h),
     location=(0, x / 2, 0),
 )
 base.cube_add(
     target=ubec,
-    name="arm_inner_1",
     scale=(x, y, plate_depth),
     location=(0, 0, (plate_depth - h) / 2),
 )
 base.cube_cut(
     target=ubec,
-    name="arm_inner_1",
     scale=(x - 12, y - 12, plate_depth + 1),
     location=(0, 0, (plate_depth - h) / 2),
 )
