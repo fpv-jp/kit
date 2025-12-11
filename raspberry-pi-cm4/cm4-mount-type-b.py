@@ -123,7 +123,9 @@ CLAW_Y = 6.0
 CLAW_Z = 14.65
 scale = (CLAW_X, CLAW_Y, CLAW_Z)
 
-CLAW_POS_X = (CM4_WIDTH + CLAW_X) / 2
+gap_x = 1.5
+
+CLAW_POS_X = (CM4_WIDTH + CLAW_X) / 2 + gap_x
 CLAW_POS_Y = 16.0
 CLAW_POS_Z = (CLAW_Z + PLATE_THICKNESS) / 2
 
@@ -137,7 +139,7 @@ base.plate_attach(
     ],
 )
 
-x1 = 26.15
+x1 = 26.15 + gap_x
 y1 = CLAW_POS_Y - CLAW_Y / 2
 vertices = [(5.5, 0, 0), (0, 5.5, 0), (0, 0, 0)]
 
@@ -157,7 +159,7 @@ for i, (x, y, rotation) in enumerate(triangle_positions_):
         rotation=rotation,
     )
 
-x1 = 27.6
+x1 = 27.6 + gap_x
 
 vertices = [(2.5, 0, 0), (0, 2.5, 0), (0, 0, 0)]
 
@@ -179,7 +181,7 @@ for i, (x, y, rotation) in enumerate(triangle_positions_):
 
 base.cube_cut(
     target=main_plate,
-    scale=(CM4_WIDTH + 6, CM4_HEIGHT + 6, 6),
+    scale=(CM4_WIDTH + 10, CM4_HEIGHT + 10, 6),
     location=(0, 0, CLAW_Z + 6),
 )
 
