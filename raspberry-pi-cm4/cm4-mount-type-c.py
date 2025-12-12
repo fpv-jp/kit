@@ -216,7 +216,7 @@ base.cube_cut(
     location=(0, 0, ARM_HEIGHT2),
 )
 
-base.cube_cut(target=main, scale=(20, 26, ARM_HEIGHT), location=(0, -3, 0))
+base.cube_cut(target=main, scale=(24, 29, PLATE_THICKNESS), location=(0, -1.5, 0))
 
 base.cube_cut(
     target=main,
