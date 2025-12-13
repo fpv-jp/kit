@@ -2,6 +2,7 @@ import bpy
 import math
 import sys
 import types
+
 text = bpy.data.texts.get("base.py")
 module_name = "base"
 module = types.ModuleType(module_name)
@@ -9,6 +10,7 @@ exec(text.as_string(), module.__dict__)
 sys.modules[module_name] = module
 
 import base
+
 base.init()
 
 # main -----------------------------------
@@ -22,7 +24,7 @@ main = base.cube_create(
 base.cube_cut(
     target=main,
     scale=(MAIN_WIDTH + 0.1, MAIN_HEIGHT + 0.1, MAIN_DEPTH + 0.1),
-    location=(0, 0, -WALL),
+    location=(0, 0, WALL),
 )
 BASE_X = MAIN_WIDTH / 2
 BASE_Y = MAIN_HEIGHT / 2
@@ -48,18 +50,18 @@ base.punch_holes(
     ],
 )
 
-# ---------------------------------------
+## ---------------------------------------
+
 
 def cube_cut2(scale, posx, posy):
-    z = (scale[2] - MAIN_DEPTH - WALL) / 2
+    z = (-scale[2] + MAIN_DEPTH + WALL) / 2
     base.cube_cut(
         target=main,
         scale=scale,
         location=(posx, posy, z),
     )
 
-cube_cut2(scale=(8.52, 11.3, 1.6), posx=BASE_X - 1.59, posy=BASE_Y - (33.784 + 15.687 / 2)) # SD
-cube_cut2(scale=(8.52, 11.8, 1.6), posx=BASE_X - 1.59, posy=BASE_Y - 14.05) # SIM
-cube_cut2(scale=(2.72, 7.5, 3.5), posx=BASE_X, posy=BASE_Y - 30.0+7.5/2)
 
-main.rotation_euler = (math.radians(180), 0, 0)
+cube_cut2(scale=(8.52, 11.3, 1.6), posx=BASE_X - 1.59, posy=-BASE_Y + (33.784 + 15.687 / 2))  # SD
+cube_cut2(scale=(2.72, 7.5, 4.2), posx=BASE_X, posy=-BASE_Y + 24.0 + 7.5 / 2)
+cube_cut2(scale=(8.52, 11.8, 1.6), posx=BASE_X - 1.59, posy=-BASE_Y + 14.05)  # SIM
