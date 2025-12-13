@@ -81,7 +81,7 @@ cube_cut2(scale=(CPU, CPU, H), posx=-BASE_X + 35.46 + CPU / 2, posy=-BASE_Y + 28
 cube_cut2(scale=(13.1, 17.1, H), posx=-BASE_X + 13.71, posy=-BASE_Y + 25.483)  # Wifi
 cube_cut2(scale=(51.01, 5.23, H), posx=BASE_X - 32.743, posy=-BASE_Y + 3.485)  # GPIO
 
-cube_cut2(scale=(3.09, 5.79, H), posx=-BASE_X + 6.98, posy=BASE_Y - 25.955)  # J201
+cube_cut2(scale=(3.09, 5.79, H), posx=-BASE_X + 8.525, posy=BASE_Y - 25.955)  # J201
 cube_cut2(scale=(3.09, 10.71, H), posx=-BASE_X + 8.491, posy=-BASE_Y + 10.683)  # J202
 
 # side -------------
