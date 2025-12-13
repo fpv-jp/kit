@@ -60,13 +60,13 @@ def cube_cut(scale, pos):
     )
 
 H = 15
-cube_cut(scale=(10.113, 13.625, H), pos=BASE_X - 5.968)  # DC
-cube_cut(scale=(13.263, 17.396, H), pos=BASE_X - 20.44)  # USB1
-cube_cut(scale=(13.263, 17.396, H), pos=BASE_X - 37.38)  # USB2
-cube_cut(scale=(7.673, 23.488, H), pos=-BASE_X + 56.16)  # HDMI1
-cube_cut(scale=(7.673, 23.488, H), pos=-BASE_X + 42.31)  # HDMI2
-cube_cut(scale=(16.233, 21.745, H), pos=-BASE_X + 28.115)  # LAN1
-cube_cut(scale=(16.233, 21.745, H), pos=-BASE_X + 9.091)  # LAN2
+cube_cut(scale=(10.7, 14.1, H), pos=BASE_X - 5.968)  # DC
+cube_cut(scale=(13.5, 18.2, H), pos=BASE_X - 20.44)  # USB1
+cube_cut(scale=(13.5, 18.2, H), pos=BASE_X - 37.38)  # USB2
+cube_cut(scale=(6.2, 22.7, H), pos=-BASE_X + 56.16)  # HDMI1
+cube_cut(scale=(6.2, 22.7, H), pos=-BASE_X + 42.31)  # HDMI2
+cube_cut(scale=(16.9, 21.6, H), pos=-BASE_X + 28.115)  # LAN1
+cube_cut(scale=(16.9, 21.6, H), pos=-BASE_X + 9.091)  # LAN2
 
 def cube_cut2(scale, posx, posy):
     z = (scale[2] - MAIN_DEPTH - WALL) / 2
@@ -84,11 +84,15 @@ cube_cut2(scale=(51.01, 5.23, H), posx=BASE_X - 32.743, posy=-BASE_Y + 3.485)  #
 cube_cut2(scale=(3.09, 5.79, H), posx=-BASE_X + 6.98, posy=BASE_Y - 25.955)  # J201
 cube_cut2(scale=(3.09, 10.71, H), posx=-BASE_X + 8.491, posy=-BASE_Y + 10.683)  # J202
 
+# side -------------
 cube_cut2(scale=(8.52, 15.687, 5.6), posx=BASE_X - 1.59, posy=BASE_Y - (33.784 + 15.687 / 2))
 cube_cut2(scale=(2.72, 2.583, 3.5), posx=BASE_X, posy=BASE_Y - 20.946)
 cube_cut2(scale=(2.72, 2.626, 3.5), posx=BASE_X, posy=BASE_Y - 55.171)
-cube_cut2(scale=(2.72, 2.626, 3.5), posx=BASE_X - 10.64, posy=-BASE_Y)
-cube_cut2(scale=(6.50, 2.626, 5.2), posx=BASE_X - 19.35, posy=-BASE_Y)
-cube_cut2(scale=(9.21, 2.626, 3), posx=BASE_X - (28.67 + 9.21 / 2), posy=-BASE_Y)
-cube_cut2(scale=(2.72, 2.626, 1.5), posx=BASE_X - 42.647, posy=-BASE_Y)
+
+# back -------------
+cube_cut2(scale=(2.72, 2.626, 3.5), posx=-BASE_X + 10.64, posy=-BASE_Y)
+cube_cut2(scale=(6.50, 2.626, 5.2), posx=-BASE_X + 19.35, posy=-BASE_Y)
+cube_cut2(scale=(9.21, 2.626, 3), posx=-BASE_X + (28.67 + 9.21 / 2), posy=-BASE_Y)
+cube_cut2(scale=(2.72, 2.626, 1.5), posx=-BASE_X + 42.647, posy=-BASE_Y)
+
 main.rotation_euler = (math.radians(180), 0, 0)

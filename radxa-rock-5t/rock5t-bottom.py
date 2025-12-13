@@ -62,6 +62,6 @@ def cube_cut2(scale, posx, posy):
     )
 
 
-cube_cut2(scale=(8.52, 11.3, 1.6), posx=BASE_X - 1.59, posy=-BASE_Y + (33.784 + 15.687 / 2))  # SD
-cube_cut2(scale=(2.72, 7.5, 4.2), posx=BASE_X, posy=-BASE_Y + 24.0 + 7.5 / 2)
-cube_cut2(scale=(8.52, 11.8, 1.6), posx=BASE_X - 1.59, posy=-BASE_Y + 14.05)  # SIM
+cube_cut2(scale=(8.52, 11.8, 1.9), posx=BASE_X - 1.59, posy=-BASE_Y + (33.784 + 15.687 / 2 - 1))  # SD
+cube_cut2(scale=(2.72, 7.5, 4.2), posx=BASE_X, posy=-BASE_Y + 23.0 + 7.5 / 2)
+cube_cut2(scale=(8.52, 11.8, 1.9), posx=BASE_X - 1.59, posy=-BASE_Y + 14.05)  # SIM
