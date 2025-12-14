@@ -11,6 +11,9 @@ sys.modules[module_name] = module
 import base
 base.init()
 
+# objects = bpy.context.view_layer.objects
+# objects[0].location = (8.25, 1.5, -7.0)
+
 # main -----------------------------------
 WALL = 1.75
 MAIN_WIDTH = 110.2
