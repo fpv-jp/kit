@@ -119,14 +119,14 @@ base.mount_pins(
 # ----------------------------------------------------------------------------------------------------------------
 
 CLAW_X = 2.5
-CLAW_Y = 6.0
-CLAW_Z = 14.65
+CLAW_Y = 7.0
+CLAW_Z = 14.95
 scale = (CLAW_X, CLAW_Y, CLAW_Z)
 
-gap_x = 0.5
+gap_x = 0.75
 
 CLAW_POS_X = (CM4_WIDTH + CLAW_X) / 2 + gap_x
-CLAW_POS_Y = 16.0
+CLAW_POS_Y = 15.5
 CLAW_POS_Z = (CLAW_Z + PLATE_THICKNESS) / 2
 
 base.plate_attach(
@@ -139,15 +139,19 @@ base.plate_attach(
     ],
 )
 
-x1 = 26.15 + gap_x
+x1 = 26.51
 y1 = CLAW_POS_Y - CLAW_Y / 2
-vertices = [(5.5, 0, 0), (0, 5.5, 0), (0, 0, 0)]
+vertices = [(6.0, 0, 0), (0, 6.0, 0), (0, 0, 0)]
+
+R45 = math.radians(45)
+R90 = math.radians(90)
+R180 = math.radians(180)
 
 triangle_positions_ = [
-    (x1, y1 + CLAW_Y, (math.radians(90), math.radians(45), 0)),
-    (-x1, y1, (math.radians(90), math.radians(45), math.radians(180))),
-    (x1, -y1, (math.radians(90), math.radians(45), 0)),
-    (-x1, -y1 - CLAW_Y, (math.radians(90), math.radians(45), math.radians(180))),
+    (x1, y1 + CLAW_Y, (R90, R45, 0)),
+    (-x1, y1, (R90, R45, R180)),
+    (x1, -y1, (R90, R45, 0)),
+    (-x1, -y1 - CLAW_Y, (R90, R45, R180)),
 ]
 
 for i, (x, y, rotation) in enumerate(triangle_positions_):
@@ -164,10 +168,10 @@ x1 = 27.6 + gap_x
 vertices = [(2.5, 0, 0), (0, 2.5, 0), (0, 0, 0)]
 
 triangle_positions_ = [
-    (x1, y1, (math.radians(90), 0, math.radians(180))),
-    (-x1, y1 + CLAW_Y, (math.radians(90), 0, 0)),
-    (x1, -y1 - CLAW_Y, (math.radians(90), 0, math.radians(180))),
-    (-x1, -y1, (math.radians(90), 0, 0)),
+    (x1, y1, (R90, 0, R180)),
+    (-x1, y1 + CLAW_Y, (R90, 0, 0)),
+    (x1, -y1 - CLAW_Y, (R90, 0, R180)),
+    (-x1, -y1, (R90, 0, 0)),
 ]
 
 for i, (x, y, rotation) in enumerate(triangle_positions_):
@@ -193,9 +197,7 @@ PLATE_WIDTH = 35
 PLATE_HEIGHT = 40
 PLATE_THICKNESS = 1.5
 
-main = base.cube_create(
-    scale=(PLATE_WIDTH, PLATE_HEIGHT, PLATE_THICKNESS), location=(0, 0, 0)
-)
+main = base.cube_create(scale=(PLATE_WIDTH, PLATE_HEIGHT, PLATE_THICKNESS), location=(0, 0, 0))
 
 ARM_HEIGHT = 4.5
 ARM_HEIGHT2 = ARM_HEIGHT / 2 + PLATE_THICKNESS / 2
@@ -209,14 +211,14 @@ base.cube_add(
 base.cube_cut(
     target=main,
     scale=(
-        PLATE_WIDTH - PLATE_THICKNESS * 2,
-        PLATE_WIDTH - PLATE_THICKNESS * 2,
+        PLATE_WIDTH - PLATE_THICKNESS * 2 + .1,
+        PLATE_WIDTH - PLATE_THICKNESS * 2 + .1,
         ARM_HEIGHT,
     ),
     location=(0, 0, ARM_HEIGHT2),
 )
 
-base.cube_cut(target=main, scale=(24, 29, PLATE_THICKNESS), location=(0, -1.5, 0))
+base.cube_cut(target=main, scale=(24, 29, PLATE_THICKNESS), location=(0, -2, 0))
 
 base.cube_cut(
     target=main,
