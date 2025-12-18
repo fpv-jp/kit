@@ -1,0 +1,79 @@
+import bpy
+import math
+import sys
+import types
+
+text = bpy.data.texts.get("base.py")
+module_name = "base"
+module = types.ModuleType(module_name)
+exec(text.as_string(), module.__dict__)
+sys.modules[module_name] = module
+
+import base
+
+base.init()
+
+MAIN_WIDTH = 27.4
+MAIN_HEIGHT = 8.0
+MAIN_DEPTH = 7.2
+
+MAIN_THICKNESS = 1.5
+
+main = base.cube_create(
+    scale=(MAIN_WIDTH, MAIN_HEIGHT, MAIN_DEPTH),
+)
+
+MAIN_WIDTH2 = 19.8
+
+base.cube_cut(
+    target=main,
+    scale=(MAIN_WIDTH2, MAIN_HEIGHT, MAIN_DEPTH / 2),
+    location=(0, 0, MAIN_DEPTH / 4),
+)
+
+M2 = 0.95
+X = 11.0 + M2
+M4 = 4.25
+M5_6 = 2.55
+
+ARM = 10.0
+ARM2 = 36.0
+
+
+MAIN_AXIS = MAIN_WIDTH2 / 2 - M4
+
+BASE_Z = -MAIN_DEPTH / 4
+
+base.cube_add(
+    target=main,
+    scale=(MAIN_DEPTH / 2, ARM, MAIN_DEPTH / 2),
+    location=(MAIN_AXIS, ARM / 2, BASE_Z),
+)
+
+base.cube_add(
+    target=main,
+    scale=(ARM2, MAIN_THICKNESS, MAIN_DEPTH / 2),
+    location=(MAIN_AXIS, ARM, BASE_Z),
+)
+
+
+base.ring_add(
+    target=main,
+    outer_radius=M4 + MAIN_THICKNESS,
+    inner_radius=M4,
+    location=(MAIN_AXIS, 0, BASE_Z),
+    depth=MAIN_DEPTH / 2,
+)
+
+base.punch_holes(
+    target=main,
+    radius=M2,
+    depth=MAIN_DEPTH,
+    holes=[(X, 0), (-X, 0)],
+)
+base.punch_holes(
+    target=main,
+    radius=M5_6,
+    depth=MAIN_DEPTH,
+    holes=[(0, 0)],
+)
