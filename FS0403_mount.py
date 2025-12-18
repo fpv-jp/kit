@@ -26,7 +26,6 @@ base.cube_cut(
     scale=(MAIN_WIDTH - 7, MAIN_HEIGHT - 7, MAIN_DEPTH + 1),
 )
 
-
 M2 = 1.2
 X = 10.5
 Y = 6.25
@@ -71,29 +70,29 @@ base.modifier_apply(obj=left, target=main, operation="UNION")
 
 ##############################################################
 
-#M3 = 1.75
+# M3 = 1.75
 
-#PIN_WIDTH = 5
-#PIN_HEIGHT = 5.5
+# PIN_WIDTH = 5
+# PIN_HEIGHT = 5.5
 
-#right = base.cube_create(
+# right = base.cube_create(
 #    scale=(MAIN_DEPTH, PIN_WIDTH, PIN_HEIGHT),
-#)
+# )
 
-#PIN = MAIN_DEPTH + 2
+# PIN = MAIN_DEPTH + 2
 
-#base.cylinder_add(
+# base.cylinder_add(
 #    target=right,
 #    radius=M3,
 #    depth=PIN,
 #    location=(-PIN / 2, 0, 0),
 #    rotation=(0, math.pi / 2, 0),
-#)
+# )
 
-#right.location = (
+# right.location = (
 #    -SIDE,
 #    3.75,
 #    (PIN_HEIGHT - MAIN_DEPTH) / 2,
-#)
+# )
 
-#base.modifier_apply(obj=right, target=main, operation="UNION")
+# base.modifier_apply(obj=right, target=main, operation="UNION")
