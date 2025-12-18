@@ -23,7 +23,7 @@ main = base.cube_create(
     scale=(MAIN_WIDTH, MAIN_HEIGHT, MAIN_DEPTH),
 )
 
-MAIN_WIDTH2 = 19.8
+MAIN_WIDTH2 = 20.0
 
 base.cube_cut(
     target=main,
@@ -33,8 +33,8 @@ base.cube_cut(
 
 M2 = 0.95
 X = 11.0 + M2
-M4 = 4.25
-M5_6 = 2.55
+M4 = 4.1
+M5_6 = 2.3
 
 ARM = 10.0
 ARM2 = 36.0
@@ -48,14 +48,10 @@ base.cube_add(
     scale=(MAIN_DEPTH / 2, ARM, MAIN_DEPTH / 2),
     location=(MAIN_AXIS, ARM / 2, BASE_Z),
 )
-base.cube_add(
-    target=main,
-    scale=(ARM2, MAIN_THICKNESS, MAIN_DEPTH / 2),
-    location=(MAIN_AXIS, ARM, BASE_Z),
-)
+
 base.ring_add(
     target=main,
-    outer_radius=M4 + MAIN_THICKNESS,
+    outer_radius=M4 + MAIN_THICKNESS + 1,
     inner_radius=M4,
     location=(MAIN_AXIS, 0, BASE_Z),
     depth=MAIN_DEPTH / 2,
@@ -70,7 +66,21 @@ base.punch_holes(
     target=main,
     radius=M5_6,
     depth=MAIN_DEPTH,
-    holes=[(0, 0)],
+    holes=[(MAIN_WIDTH2 / 2 - 10.55 + M5_6, 0)],
+)
+base.punch_holes(
+    target=main,
+    radius=M2,
+    depth=MAIN_DEPTH,
+    holes=[(MAIN_WIDTH2 / 2 - 13.3 + M2, 0)],
+)
+
+#############################################
+
+base.cube_add(
+    target=main,
+    scale=(ARM2, MAIN_THICKNESS + 1, MAIN_DEPTH / 2),
+    location=(MAIN_AXIS, ARM, BASE_Z),
 )
 
 R = 0.6
@@ -84,5 +94,22 @@ base.punch_holes(
         (MAIN_AXIS + 16.0, ARM),
         (MAIN_AXIS - 16.0, ARM),
     ],
+    rotation=(math.pi / 2, 0, 0),
+)
+
+base.ring_add(
+    target=main,
+    outer_radius=R * 3,
+    inner_radius=R,
+    location=(MAIN_AXIS + 16.0, ARM + 0.5, BASE_Z),
+    depth=MAIN_THICKNESS + 2,
+    rotation=(math.pi / 2, 0, 0),
+)
+base.ring_add(
+    target=main,
+    outer_radius=R * 3,
+    inner_radius=R,
+    location=(MAIN_AXIS - 16.0, ARM + 0.5, BASE_Z),
+    depth=MAIN_THICKNESS + 2,
     rotation=(math.pi / 2, 0, 0),
 )
