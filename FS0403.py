@@ -37,7 +37,7 @@ M4 = 4.1
 M5_6 = 2.3
 
 ARM = 10.0
-ARM2 = 36.0
+ARM2 = 32.0
 
 MAIN_AXIS = MAIN_WIDTH2 / 2 - M4
 
