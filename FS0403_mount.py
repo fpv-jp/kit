@@ -40,18 +40,20 @@ base.punch_holes(
 #############################################################
 
 ARM_HEIGHT = 26.0
-ARM_DEPTH = 7
+ARM_DEPTH = 4.5
 
 left = base.cube_create(
     scale=(MAIN_DEPTH, ARM_HEIGHT, ARM_DEPTH),
 )
 
-Y = ARM_HEIGHT / 2 - M2 * 1.75
-Z = ARM_DEPTH / 2 - M2 * 1.75
+M1_3 = 0.65
+
+Y = ARM_HEIGHT / 2 - M1_3 * 1.75
+Z = ARM_DEPTH / 2 - M1_3 * 1.75
 
 base.punch_holes(
     target=left,
-    radius=M2,
+    radius=M1_3,
     depth=MAIN_DEPTH + 1,
     holes=[(0, Y), (0, -Y)],
     height_pos=Z,
@@ -67,32 +69,3 @@ left.location = (
 )
 
 base.modifier_apply(obj=left, target=main, operation="UNION")
-
-##############################################################
-
-# M3 = 1.75
-
-# PIN_WIDTH = 5
-# PIN_HEIGHT = 5.5
-
-# right = base.cube_create(
-#    scale=(MAIN_DEPTH, PIN_WIDTH, PIN_HEIGHT),
-# )
-
-# PIN = MAIN_DEPTH + 2
-
-# base.cylinder_add(
-#    target=right,
-#    radius=M3,
-#    depth=PIN,
-#    location=(-PIN / 2, 0, 0),
-#    rotation=(0, math.pi / 2, 0),
-# )
-
-# right.location = (
-#    -SIDE,
-#    3.75,
-#    (PIN_HEIGHT - MAIN_DEPTH) / 2,
-# )
-
-# base.modifier_apply(obj=right, target=main, operation="UNION")
