@@ -30,12 +30,30 @@ M2 = 1.2
 X = 10.5
 Y = 6.25
 
-base.punch_holes(
+
+base.cube_cut(
     target=main,
-    radius=M2,
-    depth=MAIN_DEPTH + 1,
-    holes=[(X, Y), (X, -Y), (-X, Y), (-X, -Y)],
+    scale=(3, 3, MAIN_DEPTH + 1),
+    location=(-X - 2, Y + 2, 0),
+    rotation=(0, 0, math.pi / 4),
 )
+base.cube_cut(
+    target=main,
+    scale=(3, 3, MAIN_DEPTH + 1),
+    location=(-X - 2, -Y - 2, 0),
+    rotation=(0, 0, math.pi / 4),
+)
+
+
+holes = [(X, Y), (X, -Y), (-X, Y), (-X, -Y)]
+for i, (x, y) in enumerate(holes):
+    base.ring_add(
+        target=main,
+        outer_radius=M2 * 2,
+        inner_radius=M2,
+        location=(x, y, 0),
+        depth=MAIN_DEPTH,
+    )
 
 #############################################################
 
@@ -46,10 +64,10 @@ left = base.cube_create(
     scale=(MAIN_DEPTH, ARM_HEIGHT, ARM_DEPTH),
 )
 
-M1_3 = 0.65
+M1_3 = 0.75
 
-Y = ARM_HEIGHT / 2 - M1_3 * 1.75
-Z = ARM_DEPTH / 2 - M1_3 * 1.75
+Y = ARM_HEIGHT / 2 - M1_3 * 1.9
+Z = ARM_DEPTH / 2 - M1_3 * 1.9
 
 base.punch_holes(
     target=left,
