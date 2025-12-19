@@ -23,12 +23,12 @@ main = base.cube_create(
     scale=(MAIN_WIDTH, MAIN_HEIGHT, MAIN_DEPTH),
 )
 
-MAIN_WIDTH2 = 20.1
+MAIN_WIDTH2 = 20.0
 
 base.cube_cut(
     target=main,
     scale=(MAIN_WIDTH2, MAIN_HEIGHT, MAIN_DEPTH / 2),
-    location=(0, 0, MAIN_DEPTH / 4),
+    location=(0.3, 0, MAIN_DEPTH / 4),
 )
 
 M2 = 0.95
@@ -36,8 +36,8 @@ X = 11.0 + M2
 M4 = 4.1
 M5_6 = 2.3
 
-ARM = 10.0
-ARM2 = 22.0
+ARM = 7.5
+ARM2 = 32.5
 
 MAIN_AXIS = MAIN_WIDTH2 / 2 - M4
 
@@ -45,7 +45,7 @@ BASE_Z = -MAIN_DEPTH / 4
 
 base.cube_add(
     target=main,
-    scale=(MAIN_DEPTH / 2, ARM, MAIN_DEPTH / 2),
+    scale=(M4 * 2, ARM, MAIN_DEPTH / 2),
     location=(MAIN_AXIS, ARM / 2, BASE_Z),
 )
 
@@ -79,36 +79,31 @@ base.punch_holes(
 
 base.cube_add(
     target=main,
-    scale=(MAIN_DEPTH / 2, MAIN_THICKNESS + 1, ARM2),
-    location=(MAIN_AXIS, ARM, ARM2 / 2 - MAIN_DEPTH / 2),
+    scale=(ARM2, MAIN_THICKNESS + 1, MAIN_DEPTH / 2),
+    location=(MAIN_AXIS, ARM, BASE_Z),
 )
-
-base.cube_cut(
-    target=main,
-    scale=(MAIN_DEPTH / 2 + 1, MAIN_THICKNESS + 1, 9.2),
-    location=(MAIN_AXIS, ARM + 1.7, 9.2 / 2 - MAIN_DEPTH / 2),
-)
-
-ARM2 / 2 - MAIN_DEPTH / 2
 
 R = 0.9
 
-base.punch_holes(
-    target=main,
-    radius=R,
-    depth=MAIN_THICKNESS + 2,
-    height_pos=ARM2 - MAIN_DEPTH / 2 - 9.0,
-    holes=[
-        (MAIN_AXIS, ARM),
-    ],
-    rotation=(math.pi / 2, 0, 0),
-)
+holes = [
+    (MAIN_AXIS + ARM2 / 2, ARM + 0.5),
+    (MAIN_AXIS - ARM2 / 2, ARM + 0.5),
+    (MAIN_AXIS + ARM2 / 2 - 10.0, ARM + 0.5),
+    (MAIN_AXIS - ARM2 / 2 + 10.0, ARM + 0.5),
+]
+for i, (x, y) in enumerate(holes):
+    base.ring_add(
+        target=main,
+        outer_radius=R * 2,
+        inner_radius=R,
+        location=(x, y, BASE_Z),
+        depth=MAIN_THICKNESS + 2,
+        rotation=(math.pi / 2, 0, 0),
+    )
 
-base.ring_add(
+
+base.cube_cut(
     target=main,
-    outer_radius=R * 2,
-    inner_radius=R,
-    location=(MAIN_AXIS, ARM, ARM2 - MAIN_DEPTH / 2),
-    depth=MAIN_THICKNESS + 1,
-    rotation=(math.pi / 2, 0, 0),
+    scale=(15, 4.5, MAIN_DEPTH / 2 + 1),
+    location=(17.5,ARM,BASE_Z),
 )
