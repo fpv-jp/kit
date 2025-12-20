@@ -55,7 +55,7 @@ base.cylinder_cut(
     rotation=(math.pi / 2, 0, 0),
 )
 
-switch.location = (0, 0, SWITCH_THICKNESS / 2)
+switch.location = (0, 55, 0)
 
 ## bottom -----------------------------------
 
@@ -159,4 +159,4 @@ base.cube_cut(
     location=(0, CUT_HEIGHT_Y, SWITCH_HEIGHT - CUT_THICKNESS - MAIN_THICKNESS * 2),
 )
 
-top.location = (-TOP_WIDTH - 5, 0, SWITCH_HEIGHT / 2)
+top.location = (0, 0, SWITCH_HEIGHT / 2)
