@@ -32,13 +32,13 @@ switch = base.cube_create(
 
 SWITCH_WIDTH2 = 19.8
 SWITCH_HEIGHT2 = 12.8
-SWITCH_THICKNESS2 = 26.8
+SWITCH_THICKNESS2 = 34.35
 
 Z = SWITCH_THICKNESS2 / 2 - SWITCH_THICKNESS / 2
 
 base.cube_add(
     target=switch,
-    scale=(SWITCH_WIDTH2 - MAIN_THICKNESS, SWITCH_HEIGHT2 + MAIN_THICKNESS, SWITCH_THICKNESS2),
+    scale=(8 - MAIN_THICKNESS, SWITCH_HEIGHT2 + MAIN_THICKNESS, SWITCH_THICKNESS2),
     location=(0, 0, Z),
 )
 base.cube_cut(
@@ -51,18 +51,20 @@ base.cylinder_cut(
     target=switch,
     radius=M3,
     depth=SWITCH_HEIGHT,
-    location=(0, 0, 21.0),
+    location=(0, 0, 28.5),
     rotation=(math.pi / 2, 0, 0),
 )
 
-switch.location = (0, 55, 0)
+switch.location = (-30, 0, SWITCH_THICKNESS / 2)
+# switch.location = (0, 30.25, -5.75)
+# switch.rotation_euler = (math.pi / 2, 0, 0)
 
 ## bottom -----------------------------------
 
 BOTTOM_WIDTH = 22
-BOTTOM_HEIGHT = 86
+BOTTOM_HEIGHT = 115
 
-CENTER_PLATE = 20
+CENTER_PLATE = 28
 
 bottom = base.cube_create(
     scale=(BOTTOM_WIDTH + MAIN_THICKNESS, BOTTOM_HEIGHT, SWITCH_HEIGHT),
@@ -81,6 +83,11 @@ base.cube_cut(
     target=bottom,
     scale=(CUT_WIDTH, CUT_HEIGHT, SWITCH_HEIGHT),
     location=(0, CUT_HEIGHT_Y, MAIN_THICKNESS),
+)
+base.cube_cut(
+    target=bottom,
+    scale=(8 - MAIN_THICKNESS, CUT_HEIGHT, SWITCH_HEIGHT),
+    location=(0, CUT_HEIGHT_Y, MAIN_THICKNESS / 2),
 )
 
 # center plate
@@ -109,22 +116,29 @@ base.punch_holes(
     ],
 )
 
-bottom.location = (BOTTOM_WIDTH + 5, 0, SWITCH_HEIGHT / 2)
+bottom.location = (0, 0, SWITCH_HEIGHT / 2)
 
 ## top -----------------------------------
 
-TOP_WIDTH = 22
-TOP_HEIGHT = 86
-
-CENTER_PLATE = 20
+TOP_WIDTH = BOTTOM_WIDTH
+TOP_HEIGHT = BOTTOM_HEIGHT
 
 top = base.cube_create(
-    scale=(TOP_WIDTH + MAIN_THICKNESS, TOP_HEIGHT, SWITCH_HEIGHT),
+    scale=(TOP_WIDTH + MAIN_THICKNESS * 2, TOP_HEIGHT + MAIN_THICKNESS / 2, SWITCH_HEIGHT),
+    location=(0, -MAIN_THICKNESS / 4, 0),
 )
 base.cube_cut(
     target=top,
     scale=(TOP_WIDTH, TOP_HEIGHT, SWITCH_HEIGHT),
     location=(0, MAIN_THICKNESS / 2, MAIN_THICKNESS),
+)
+CUT_WIDTH = TOP_WIDTH + MAIN_THICKNESS + 1
+CUT_HEIGHT = TOP_HEIGHT / 2 - CENTER_PLATE
+CUT_HEIGHT_Y = CUT_HEIGHT / 2 + CENTER_PLATE + MAIN_THICKNESS / 4
+base.cube_cut(
+    target=top,
+    scale=(8 - MAIN_THICKNESS, CUT_HEIGHT, SWITCH_HEIGHT),
+    location=(0, CUT_HEIGHT_Y, MAIN_THICKNESS / 2),
 )
 
 # center plate
@@ -146,17 +160,29 @@ base.punch_holes(
 
 base.cube_cut(
     target=top,
-    scale=(TOP_WIDTH + MAIN_THICKNESS + 1, TOP_HEIGHT + 1, MAIN_THICKNESS),
+    scale=(TOP_WIDTH + MAIN_THICKNESS + 3, TOP_HEIGHT + 3, MAIN_THICKNESS),
     location=(0, 0, SWITCH_HEIGHT / 2 - MAIN_THICKNESS / 2),
 )
 
-CUT_WIDTH = TOP_WIDTH + MAIN_THICKNESS + 1
-CUT_HEIGHT = TOP_HEIGHT / 2 + CENTER_PLATE
-CUT_HEIGHT_Y = -CUT_HEIGHT / 2 + CENTER_PLATE - MAIN_THICKNESS / 4
+CUT_WIDTH = TOP_WIDTH + MAIN_THICKNESS
+CUT_HEIGHT = TOP_HEIGHT / 2 + CENTER_PLATE + MAIN_THICKNESS / 4
+CUT_HEIGHT_Y = -CUT_HEIGHT / 2 + CENTER_PLATE + MAIN_THICKNESS / 4
 base.cube_cut(
     target=top,
     scale=(CUT_WIDTH, CUT_HEIGHT, SWITCH_HEIGHT),
-    location=(0, CUT_HEIGHT_Y, SWITCH_HEIGHT - CUT_THICKNESS - MAIN_THICKNESS * 2),
+    location=(0, CUT_HEIGHT_Y, SWITCH_HEIGHT - CUT_THICKNESS - MAIN_THICKNESS * 1.5),
 )
 
-top.location = (0, 0, SWITCH_HEIGHT / 2)
+base.cube_cut(
+    target=top,
+    scale=(TOP_WIDTH + MAIN_THICKNESS + 3, 3, 6),
+    location=(10, 34, 4),
+)
+
+base.cube_cut(
+    target=top,
+    scale=(TOP_WIDTH + MAIN_THICKNESS + 3, 3, 6),
+    location=(0, 45, 4),
+)
+
+top.location = (TOP_WIDTH + 4, 0, SWITCH_HEIGHT / 2)
