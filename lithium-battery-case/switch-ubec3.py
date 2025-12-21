@@ -38,7 +38,7 @@ Z = SWITCH_THICKNESS2 / 2 - SWITCH_THICKNESS / 2
 
 base.cube_add(
     target=switch,
-    scale=(8 - MAIN_THICKNESS, SWITCH_HEIGHT2 + MAIN_THICKNESS, SWITCH_THICKNESS2),
+    scale=(8 - MAIN_THICKNESS, SWITCH_HEIGHT2 + MAIN_THICKNESS*1.5, SWITCH_THICKNESS2),
     location=(0, 0, Z),
 )
 base.cube_cut(
@@ -87,7 +87,7 @@ base.cube_cut(
 base.cube_cut(
     target=bottom,
     scale=(8 - MAIN_THICKNESS, CUT_HEIGHT, SWITCH_HEIGHT),
-    location=(0, CUT_HEIGHT_Y, MAIN_THICKNESS / 2),
+    location=(0, CUT_HEIGHT_Y, MAIN_THICKNESS*0.25),
 )
 
 # center plate
@@ -138,7 +138,7 @@ CUT_HEIGHT_Y = CUT_HEIGHT / 2 + CENTER_PLATE + MAIN_THICKNESS / 4
 base.cube_cut(
     target=top,
     scale=(8 - MAIN_THICKNESS, CUT_HEIGHT, SWITCH_HEIGHT),
-    location=(0, CUT_HEIGHT_Y, MAIN_THICKNESS / 2),
+    location=(0, CUT_HEIGHT_Y, MAIN_THICKNESS *0.25),
 )
 
 # center plate
@@ -158,12 +158,6 @@ base.punch_holes(
     ],
 )
 
-base.cube_cut(
-    target=top,
-    scale=(TOP_WIDTH + MAIN_THICKNESS + 3, TOP_HEIGHT + 3, MAIN_THICKNESS),
-    location=(0, 0, SWITCH_HEIGHT / 2 - MAIN_THICKNESS / 2),
-)
-
 CUT_WIDTH = TOP_WIDTH + MAIN_THICKNESS
 CUT_HEIGHT = TOP_HEIGHT / 2 + CENTER_PLATE + MAIN_THICKNESS / 4
 CUT_HEIGHT_Y = -CUT_HEIGHT / 2 + CENTER_PLATE + MAIN_THICKNESS / 4
@@ -172,46 +166,37 @@ base.cube_cut(
     scale=(CUT_WIDTH, CUT_HEIGHT, SWITCH_HEIGHT),
     location=(0, CUT_HEIGHT_Y, SWITCH_HEIGHT - CUT_THICKNESS - MAIN_THICKNESS * 1.5),
 )
+base.cube_cut(
+    target=top,
+    scale=(TOP_WIDTH +MAIN_THICKNESS , TOP_HEIGHT, MAIN_THICKNESS),
+    location=(0, 0, SWITCH_HEIGHT / 2 - MAIN_THICKNESS / 2),
+)
 
+# ubec
 base.cube_cut(
     target=top,
     scale=(TOP_WIDTH + MAIN_THICKNESS + 3, 3, 6),
-    location=(10, 34, 4),
+    location=(-10, 45, 5.5),
 )
-
-base.cube_cut(
-    target=top,
-    scale=(TOP_WIDTH + MAIN_THICKNESS + 3, 3, 6),
-    location=(0, 45, 4),
-)
-
 base.cube_cut(
     target=top,
     scale=(4, 3, 8),
     location=(7, CENTER_PLATE, 0),
 )
-
 base.cube_cut(
     target=top,
     scale=(4, 3, 8),
     location=(-7, CENTER_PLATE, 0),
 )
-
-base.cylinder_cut(
+base.cube_cut(
     target=top,
-    radius=M3,
-    location=(5.5, -TOP_HEIGHT / 2, -2.5),
-    depth=MAIN_THICKNESS + 1,
-    rotation=(math.pi / 2, 0, 0),
+    scale=(3, 3, 5.5),
+    location=(7, -TOP_HEIGHT / 2, 2.25),
 )
-
-base.cylinder_cut(
+base.cube_cut(
     target=top,
-    radius=M3,
-    location=(-5.5, -TOP_HEIGHT / 2, -2.5),
-    depth=MAIN_THICKNESS + 1,
-    rotation=(math.pi / 2, 0, 0),
+    scale=(3, 3, 5.5),
+    location=(-7, -TOP_HEIGHT / 2, 2.25),
 )
-
 
 top.location = (TOP_WIDTH + 4, 0, SWITCH_HEIGHT / 2)
