@@ -44,11 +44,9 @@ hexagon_vertices = [
     (-half_width, -half_height / 2 + CORNER_CUT_SIZE, 0),
     (-half_width, half_height / 2 - CORNER_CUT_SIZE, 0),
 ]
-
 bmesh_vertices = []
 for vertex in hexagon_vertices:
     bmesh_vertices.append(bmesh_obj.verts.new(vertex))
-
 bmesh_obj.faces.new(bmesh_vertices)
 extruded_geometry = bmesh.ops.extrude_face_region(bmesh_obj, geom=bmesh_obj.faces[:])
 bmesh.ops.translate(
@@ -56,16 +54,41 @@ bmesh.ops.translate(
     vec=(0, 0, BASE_PLATE_THICKNESS),
     verts=[v for v in extruded_geometry["geom"] if isinstance(v, bmesh.types.BMVert)],
 )
-
 bmesh_obj.normal_update()
 bmesh_obj.faces.ensure_lookup_table()
 bmesh_obj.to_mesh(hexagonal_mesh)
 bmesh_obj.free()
 
+hexagonal_plate.location = (0, 0, -BASE_PLATE_THICKNESS / 2)
+
+x = 15.25
 base.punch_holes(
     target=hexagonal_plate,
     radius=M3,
-    depth=BASE_PLATE_THICKNESS + 1,
-    height_pos=0,
-    holes=[(15.25, 0), (-15.25, 0)],
+    depth=BASE_PLATE_THICKNESS + 2,
+    holes=[(x, 0), (-x, 0)],
 )
+
+hexagonal_plate.location = (0, 10, -BASE_PLATE_THICKNESS / 2)
+
+#################################################
+
+x = 20.0
+
+base.ring_add(
+    target=hexagonal_plate,
+    outer_radius=6.5,
+    inner_radius=3.25,
+    depth=BASE_PLATE_THICKNESS,
+    location=(x, 0, 0),
+)
+
+base.ring_add(
+    target=hexagonal_plate,
+    outer_radius=6.5,
+    inner_radius=3.25,
+    depth=BASE_PLATE_THICKNESS,
+    location=(-x, 0, 0),
+)
+
+#################################################
