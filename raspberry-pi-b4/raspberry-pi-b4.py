@@ -97,25 +97,26 @@ for i, (x, y) in enumerate(holes3):
 
 
 raspi_x = 24.5
-raspi_y = 11.5
+raspi_y = 58.0
+raspi_pos = 12.5
 
 # M2.5
 holes = [
-    (raspi_x, raspi_y + 58.0),
-    (-raspi_x, raspi_y + 58.0),
-    (raspi_x, raspi_y),
-    (-raspi_x, raspi_y),
+    (raspi_x, raspi_pos + raspi_y),
+    (-raspi_x, raspi_pos + raspi_y),
+    (raspi_x, raspi_pos),
+    (-raspi_x, raspi_pos),
 ]
 
 base.cube_add(
     target=plate,
     scale=(raspi_x * 2, M2_5 * 4, plate_depth),
-    location=(0, raspi_y + 58.0, 0),
+    location=(0, raspi_pos + raspi_y, 0),
 )
 base.cube_add(
     target=plate,
     scale=(raspi_x * 2, M2_5 * 4, plate_depth),
-    location=(0, raspi_y, 0),
+    location=(0, raspi_pos, 0),
 )
 for i, (x, y) in enumerate(holes):
     base.ring_add(
