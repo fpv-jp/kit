@@ -172,21 +172,21 @@ base.modifier_apply(obj=wifi, target=plate, name="wifi_union", operation="UNION"
 
 # inductor ==============================================
 h = 10
-r = 10
+r = 9.5
 inductor = base.cylinder_create(
     radius=r,
     depth=h,
 )
 base.cylinder_cut(
     target=inductor,
-    radius=r -1.5,
+    radius=r - 1.5,
     depth=h,
     location=(0, 0, plate_depth),
 )
 base.cube_cut(
     target=inductor,
-    scale=(r/1.5, r, h),
-    location=(0, -r/2, 0),
+    scale=(r / 1.5, r, h),
+    location=(0, -r / 2, 0),
 )
 
 inductor.location = (0, -46, (h - plate_depth) / 2)
