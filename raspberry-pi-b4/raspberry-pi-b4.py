@@ -96,7 +96,7 @@ for i, (x, y) in enumerate(holes3):
     )
 
 
-raspi_x = 22.5
+raspi_x = 24.5
 raspi_y = 11.5
 
 # M2.5
@@ -138,7 +138,7 @@ for i, (x, y) in enumerate(holes):
 
 x = 35
 y = 35
-h = 7
+h = 6
 
 wifi = base.cube_create(
     scale=(x, y, h),
@@ -151,12 +151,12 @@ base.cube_cut(
 # antenna
 base.cube_cut(
     target=wifi,
-    scale=(12, 12, h),
+    scale=(11, 11, h),
     location=(x / 2, -y / 2, 0),
 )
 base.cube_cut(
     target=wifi,
-    scale=(12, 12, h),
+    scale=(11, 11, h),
     location=(-x / 2, -y / 2, 0),
 )
 # usb
@@ -168,6 +168,28 @@ base.cube_cut(
 
 wifi.location = (0, -19, (h - plate_depth) / 2)
 base.modifier_apply(obj=wifi, target=plate, name="wifi_union", operation="UNION")
+
+# inductor ==============================================
+h = 10
+r = 10
+inductor = base.cylinder_create(
+    radius=r,
+    depth=h,
+)
+base.cylinder_cut(
+    target=inductor,
+    radius=r -1.5,
+    depth=h,
+    location=(0, 0, plate_depth),
+)
+base.cube_cut(
+    target=inductor,
+    scale=(r/1.5, r, h),
+    location=(0, -r/2, 0),
+)
+
+inductor.location = (0, -46, (h - plate_depth) / 2)
+base.modifier_apply(obj=inductor, target=plate, name="inductor_union", operation="UNION")
 
 # ubec ==============================================
 
