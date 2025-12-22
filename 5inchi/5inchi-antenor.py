@@ -17,11 +17,6 @@ base.init()
 
 M3 = 1.8
 
-PLATE_WIDTH = 28
-PLATE_HEIGHT = 58
-
-PLATE_THICKNESS = 4
-
 BASE_PLATE_WIDTH = 40
 BASE_PLATE_HEIGHT = 30
 BASE_PLATE_THICKNESS = 2
@@ -70,7 +65,7 @@ bmesh_obj.free()
 base.punch_holes(
     target=hexagonal_plate,
     radius=M3,
-    depth=PLATE_THICKNESS + 1,
+    depth=BASE_PLATE_THICKNESS + 1,
     height_pos=0,
     holes=[(15.25, 0), (-15.25, 0)],
 )
