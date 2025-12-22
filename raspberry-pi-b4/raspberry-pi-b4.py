@@ -189,7 +189,7 @@ base.cube_cut(
     location=(0, -r / 2, 0),
 )
 
-inductor.location = (0, -46, (h - plate_depth) / 2)
+inductor.location = (0, -45.0, (h - plate_depth) / 2)
 base.modifier_apply(obj=inductor, target=plate, name="inductor_union", operation="UNION")
 
 # ubec ==============================================
