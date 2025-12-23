@@ -26,7 +26,6 @@ frame_height = inner_height + frame_thickness * 2
 frame_z = frame_depth / 2
 
 frame = base.cube_create(
-    name="frame_outer",
     scale=(
         inner_width + frame_thickness * 2,
         inner_height + frame_thickness * 2,
@@ -48,7 +47,6 @@ z = -frame_depth / 2
 
 base.cube_add(
     target=frame,
-    name=f"m3_mounting_protrusion",
     scale=(PITCH * 2, M3 * 4, frame_thickness),
     location=(0, y, z),
 )
@@ -60,7 +58,6 @@ holes = [
 for i, (x, y) in enumerate(holes):
     base.ring_add(
         target=frame,
-        name=f"m3_ring_{i}",
         outer_radius=M3 * 2,
         inner_radius=M3,
         location=(x, y, z),
@@ -76,7 +73,6 @@ z = -frame_depth / 2
 
 base.cube_add(
     target=frame,
-    name=f"m3_mounting_protrusion",
     scale=(PITCH * 2, M3 * 4, frame_thickness),
     location=(0, y, z),
 )
@@ -88,7 +84,6 @@ holes = [
 for i, (x, y) in enumerate(holes):
     base.ring_add(
         target=frame,
-        name=f"m3_ring_{i}",
         outer_radius=M3 * 2,
         inner_radius=M3,
         location=(x, y, z),
@@ -99,17 +94,15 @@ for i, (x, y) in enumerate(holes):
 
 base.cube_cut(
     target=frame,
-    name="frame_inner",
     scale=(inner_width, inner_height, frame_depth),
     location=(0, 0, frame_thickness / 2),
 )
 base.cube_cut(
     target=frame,
-    name="rect_hole",
     scale=(14.0, 14.0, frame_thickness + 2),
     location=(0, 0, frame_thickness / 2 - frame_depth / 2),
 )
-base.cube_cut(target=frame, name="rect_hole2", scale=(9.1, 9.0, 9), location=(0, -10.5, 0))
+base.cube_cut(target=frame, scale=(9.1, 9.0, 9), location=(0, -10.5, 0))
 
 ########################################
 
@@ -118,14 +111,12 @@ radius_antenn1 = 7.5
 radius_antenn2 = 3.25
 
 antenna = base.cylinder_create(
-    name="antenna",
     radius=radius_antenn1,
     depth=depth_antenna,
 )
 
 base.cube_add(
     target=antenna,
-    name="antenna_base",
     scale=(radius_antenn1 * 2, radius_antenn1 + 2, frame_thickness + 1),
     location=(0, -4, -4),
     rotation=(math.pi / 6, 0, 0),
@@ -133,7 +124,6 @@ base.cube_add(
 
 base.cylinder_cut(
     target=antenna,
-    name="antenna_ring1",
     radius=radius_antenn1 - frame_thickness,
     location=(0, 0, -frame_thickness),
     depth=depth_antenna - frame_thickness,
@@ -141,7 +131,6 @@ base.cylinder_cut(
 
 base.cylinder_cut(
     target=antenna,
-    name="antenna_ring2",
     radius=radius_antenn2,
     depth=depth_antenna + 1,
 )
@@ -149,13 +138,12 @@ base.cylinder_cut(
 antenna.location = (0, 22.6, -2)
 antenna.rotation_euler = (-math.pi / 6, 0, 0)
 
-base.modifier_apply(obj=antenna, target=frame, name="antenna_union")
+base.modifier_apply(obj=antenna, target=frame)
 
 ########################################
 
 base.ring_add(
     target=frame,
-    name="m2_5_ring1",
     outer_radius=6.5,
     inner_radius=radius_antenn2,
     depth=frame_thickness,
@@ -163,7 +151,6 @@ base.ring_add(
 )
 base.ring_add(
     target=frame,
-    name="m2_5_ring1",
     outer_radius=6.5,
     inner_radius=radius_antenn2,
     depth=frame_thickness,
@@ -178,14 +165,12 @@ z = -3
 
 base.frame_add(
     target=frame,
-    name="frame_right",
     inner=erls,
     thickness=frame_thickness,
     location=(x, y, z - 0.5),
 )
 base.frame_add(
     target=frame,
-    name="frame_left",
     inner=erls,
     thickness=frame_thickness,
     location=(-x, y, z - 0.5),
@@ -195,7 +180,6 @@ base.frame_add(
 
 base.cube_cut(
     target=frame,
-    name="main-cut",
     scale=(100, 100, 10),
     location=(0, 0, -9.25),
 )

@@ -62,11 +62,18 @@ bmesh_obj.free()
 main.location = (0, 0, -BASE_PLATE_THICKNESS / 2)
 
 x = 12.0
+
 base.punch_holes(
     target=main,
     radius=M3,
     depth=BASE_PLATE_THICKNESS + 2,
     holes=[(x, 0), (-x, 0)],
+)
+
+base.cylinder_cut(
+    target=main,
+    radius=3.25,
+    depth=BASE_PLATE_THICKNESS + 2,
 )
 
 main.location = (0, 7.5, -BASE_PLATE_THICKNESS / 2)
@@ -75,37 +82,36 @@ main.location = (0, 7.5, -BASE_PLATE_THICKNESS / 2)
 
 x = 18.0
 
-base.ring_add(
-    target=main,
-    outer_radius=6.5,
-    inner_radius=3.25,
-    depth=BASE_PLATE_THICKNESS,
-    location=(x, 0, 0),
-)
+holes = [(-x, 0), (x, 0)]
 
-base.ring_add(
-    target=main,
-    outer_radius=6.5,
-    inner_radius=3.25,
-    depth=BASE_PLATE_THICKNESS,
-    location=(-x, 0, 0),
-)
+for i, (x, y) in enumerate(holes):
+    base.ring_add(
+        target=main,
+        outer_radius=6.5,
+        inner_radius=3.25,
+        location=(x, y, 0),
+        depth=BASE_PLATE_THICKNESS,
+    )
+
 
 ##################################################
 
 xy = 20.3
 z = 6.7
+
+main.location = (0, 15.0, -(z + BASE_PLATE_THICKNESS) / 2)
+
 base.cube_add(
-   target=main,
-   scale=(xy + BASE_PLATE_THICKNESS, xy + BASE_PLATE_THICKNESS, z + BASE_PLATE_THICKNESS),
+    target=main,
+    scale=(xy + BASE_PLATE_THICKNESS, xy + BASE_PLATE_THICKNESS, z + BASE_PLATE_THICKNESS),
 )
 base.cube_cut(
-   target=main,
-   scale=(xy, xy, z),
-   location=(0, 0, BASE_PLATE_THICKNESS),
+    target=main,
+    scale=(xy, xy, z),
+    location=(0, 0, BASE_PLATE_THICKNESS),
 )
 base.cube_cut(
-   target=main,
-   scale=(9.0, 8.0, 10),
-   location=(0, -xy/2, 0),
+    target=main,
+    scale=(9.0, 8.0, 10.0),
+    location=(0, -xy / 2, 0),
 )
