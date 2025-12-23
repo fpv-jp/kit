@@ -100,7 +100,7 @@ for i, (x, y) in enumerate(holes):
 xy = 20.15
 z = 6.7
 
-main.location = (0, 16.5, -(z + BASE_PLATE_THICKNESS) / 2)
+main.location = (0, 17.5, -(z + BASE_PLATE_THICKNESS) / 2)
 
 base.cube_add(
     target=main,
