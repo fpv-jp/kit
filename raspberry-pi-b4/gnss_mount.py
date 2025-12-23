@@ -94,10 +94,6 @@ for i, (x, y) in enumerate(holes):
 
 #########################################
 
-depth_antenna = 10
-radius_antenn1 = 7.5
-radius_antenn2 = 3.25
-
 PITCH = 17.0
 y = -5
 
@@ -112,6 +108,9 @@ for i, (x, y) in enumerate(holes):
     )
 
 #########################################
+
+depth_antenna = 10
+radius_antenn1 = 7.5
 
 antenna = base.cylinder_create(
     radius=radius_antenn1,
@@ -134,7 +133,7 @@ base.cylinder_cut(
 
 base.cylinder_cut(
     target=antenna,
-    radius=radius_antenn2,
+    radius=3.25,
     depth=depth_antenna + 1,
 )
 
