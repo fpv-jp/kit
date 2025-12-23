@@ -74,7 +74,7 @@ base.cylinder_cut(
     target=main,
     radius=3.25,
     depth=BASE_PLATE_THICKNESS + 2,
-#    location=(0, -.5, 0),
+    #    location=(0, -.5, 0),
 )
 
 main.location = (0, 8.25, -BASE_PLATE_THICKNESS / 2)
@@ -104,7 +104,7 @@ main.location = (0, 17.5, -(z + BASE_PLATE_THICKNESS) / 2)
 
 base.cube_add(
     target=main,
-    scale=(xy + BASE_PLATE_THICKNESS, xy + BASE_PLATE_THICKNESS, z + BASE_PLATE_THICKNESS),
+    scale=(xy + BASE_PLATE_THICKNESS, xy + BASE_PLATE_THICKNESS + 0.2, z + BASE_PLATE_THICKNESS),
 )
 base.cube_cut(
     target=main,
