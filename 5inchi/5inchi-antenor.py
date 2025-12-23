@@ -17,14 +17,14 @@ base.init()
 
 M3 = 1.8
 
-BASE_PLATE_WIDTH = 40
-BASE_PLATE_HEIGHT = 30
+BASE_PLATE_WIDTH = 34.0
+BASE_PLATE_HEIGHT = 22.0
 BASE_PLATE_THICKNESS = 2
-CORNER_CUT_SIZE = 6.5
+CORNER_CUT_SIZE = 4.5
 
 hexagonal_mesh = bpy.data.meshes.new("HexagonalPlate")
-hexagonal_plate = bpy.data.objects.new("HexagonalPlate", hexagonal_mesh)
-bpy.context.collection.objects.link(hexagonal_plate)
+main = bpy.data.objects.new("HexagonalPlate", hexagonal_mesh)
+bpy.context.collection.objects.link(main)
 bmesh_obj = bmesh.new()
 
 half_width = BASE_PLATE_WIDTH / 2
@@ -59,24 +59,24 @@ bmesh_obj.faces.ensure_lookup_table()
 bmesh_obj.to_mesh(hexagonal_mesh)
 bmesh_obj.free()
 
-hexagonal_plate.location = (0, 0, -BASE_PLATE_THICKNESS / 2)
+main.location = (0, 0, -BASE_PLATE_THICKNESS / 2)
 
-x = 15.25
+x = 12.0
 base.punch_holes(
-    target=hexagonal_plate,
+    target=main,
     radius=M3,
     depth=BASE_PLATE_THICKNESS + 2,
     holes=[(x, 0), (-x, 0)],
 )
 
-hexagonal_plate.location = (0, 10, -BASE_PLATE_THICKNESS / 2)
+main.location = (0, 7.5, -BASE_PLATE_THICKNESS / 2)
 
 #################################################
 
-x = 20.0
+x = 18.0
 
 base.ring_add(
-    target=hexagonal_plate,
+    target=main,
     outer_radius=6.5,
     inner_radius=3.25,
     depth=BASE_PLATE_THICKNESS,
@@ -84,11 +84,28 @@ base.ring_add(
 )
 
 base.ring_add(
-    target=hexagonal_plate,
+    target=main,
     outer_radius=6.5,
     inner_radius=3.25,
     depth=BASE_PLATE_THICKNESS,
     location=(-x, 0, 0),
 )
 
-#################################################
+##################################################
+
+xy = 20.3
+z = 6.7
+base.cube_add(
+   target=main,
+   scale=(xy + BASE_PLATE_THICKNESS, xy + BASE_PLATE_THICKNESS, z + BASE_PLATE_THICKNESS),
+)
+base.cube_cut(
+   target=main,
+   scale=(xy, xy, z),
+   location=(0, 0, BASE_PLATE_THICKNESS),
+)
+base.cube_cut(
+   target=main,
+   scale=(9.0, 8.0, 10),
+   location=(0, -xy/2, 0),
+)
