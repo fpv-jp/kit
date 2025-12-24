@@ -45,7 +45,7 @@ z = frame_thickness
 ########################################
 
 PITCH = 18.9
-y = 10
+y = 10.0
 
 base.cube_add(
     target=frame,
@@ -66,7 +66,7 @@ for i, (x, y) in enumerate(holes):
 ########################################
 
 PITCH = 27.0
-y = -9
+y = -9.0
 
 base.cube_add(
     target=frame,
@@ -87,7 +87,7 @@ for i, (x, y) in enumerate(holes):
 #########################################
 
 PITCH = 17.0
-y = -5
+y = -5.0
 
 holes = [(-PITCH, y), (PITCH, y)]
 for i, (x, y) in enumerate(holes):
