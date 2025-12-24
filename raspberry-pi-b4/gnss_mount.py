@@ -179,5 +179,13 @@ base.cube_cut(
 erls1.location = (x, y, (erls_depth + frame_thickness) / 2)
 erls2.location = (-x, y, (erls_depth + frame_thickness) / 2)
 
-base.modifier_apply(obj=frame, target=erls1)
-base.modifier_apply(obj=frame, target=erls2)
+base.modifier_apply(obj=erls1, target=frame)
+base.modifier_apply(obj=erls2, target=frame)
+
+##########################################
+
+base.cube_cut(
+    target=frame,
+    scale=(9.0, 8.0, 10),
+    location=(0, -9.0, 5),
+)
