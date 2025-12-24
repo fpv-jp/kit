@@ -25,39 +25,42 @@ CORNER_CUT_SIZE = 4.5
 hexagonal_mesh = bpy.data.meshes.new("HexagonalPlate")
 main = bpy.data.objects.new("HexagonalPlate", hexagonal_mesh)
 bpy.context.collection.objects.link(main)
-bmesh_obj = bmesh.new()
+OBJ = bmesh.new()
 
-half_width = BASE_PLATE_WIDTH / 2
-half_height = BASE_PLATE_HEIGHT / 2
+W = BASE_PLATE_WIDTH / 2
+H = BASE_PLATE_HEIGHT / 2
 
 hexagon_vertices = [
     # 上辺
-    (-half_width + CORNER_CUT_SIZE, half_height, 0),
-    (half_width - CORNER_CUT_SIZE, half_height, 0),
+    (-W + CORNER_CUT_SIZE, H, 0),
+    (W - CORNER_CUT_SIZE, H, 0),
     # 右辺
-    (half_width, half_height / 2 - CORNER_CUT_SIZE, 0),
-    (half_width, -half_height / 2 + CORNER_CUT_SIZE, 0),
+    (W, H / 2 - CORNER_CUT_SIZE, 0),
+    (W, -H / 2 + CORNER_CUT_SIZE, 0),
     # 下辺
-    (half_width - CORNER_CUT_SIZE, -half_height, 0),
-    (-half_width + CORNER_CUT_SIZE, -half_height, 0),
+    (W - CORNER_CUT_SIZE, -H, 0),
+    (-W + CORNER_CUT_SIZE, -H, 0),
     # 左辺
-    (-half_width, -half_height / 2 + CORNER_CUT_SIZE, 0),
-    (-half_width, half_height / 2 - CORNER_CUT_SIZE, 0),
+    (-W, -H / 2 + CORNER_CUT_SIZE, 0),
+    (-W, H / 2 - CORNER_CUT_SIZE, 0),
 ]
-bmesh_vertices = []
+
+VERTICES = []
 for vertex in hexagon_vertices:
-    bmesh_vertices.append(bmesh_obj.verts.new(vertex))
-bmesh_obj.faces.new(bmesh_vertices)
-extruded_geometry = bmesh.ops.extrude_face_region(bmesh_obj, geom=bmesh_obj.faces[:])
+    VERTICES.append(OBJ.verts.new(vertex))
+OBJ.faces.new(VERTICES)
+
+GEOMETRY = bmesh.ops.extrude_face_region(OBJ, geom=OBJ.faces[:])
 bmesh.ops.translate(
-    bmesh_obj,
+    OBJ,
     vec=(0, 0, BASE_PLATE_THICKNESS),
-    verts=[v for v in extruded_geometry["geom"] if isinstance(v, bmesh.types.BMVert)],
+    verts=[v for v in GEOMETRY["geom"] if isinstance(v, bmesh.types.BMVert)],
 )
-bmesh_obj.normal_update()
-bmesh_obj.faces.ensure_lookup_table()
-bmesh_obj.to_mesh(hexagonal_mesh)
-bmesh_obj.free()
+
+OBJ.normal_update()
+OBJ.faces.ensure_lookup_table()
+OBJ.to_mesh(hexagonal_mesh)
+OBJ.free()
 
 main.location = (0, 0, -BASE_PLATE_THICKNESS / 2)
 
