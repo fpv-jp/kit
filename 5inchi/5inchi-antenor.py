@@ -12,7 +12,6 @@ sys.modules[module_name] = module
 
 import base
 
-# 初期化
 base.init()
 
 M3 = 1.8
@@ -20,29 +19,25 @@ M3 = 1.8
 BASE_PLATE_WIDTH = 34.0
 BASE_PLATE_HEIGHT = 22.0
 BASE_PLATE_THICKNESS = 2
-CORNER_CUT_SIZE = 4.5
 
 hexagonal_mesh = bpy.data.meshes.new("HexagonalPlate")
 main = bpy.data.objects.new("HexagonalPlate", hexagonal_mesh)
 bpy.context.collection.objects.link(main)
 OBJ = bmesh.new()
 
-W = BASE_PLATE_WIDTH / 2
-H = BASE_PLATE_HEIGHT / 2
+W = BASE_PLATE_WIDTH / 2  # half width
+H = BASE_PLATE_HEIGHT / 2  # half height
+C = 4.5  # CORNER_CUT_SIZE
 
 hexagon_vertices = [
-    # 上辺
-    (-W + CORNER_CUT_SIZE, H, 0),
-    (W - CORNER_CUT_SIZE, H, 0),
-    # 右辺
-    (W, H / 2 - CORNER_CUT_SIZE, 0),
-    (W, -H / 2 + CORNER_CUT_SIZE, 0),
-    # 下辺
-    (W - CORNER_CUT_SIZE, -H, 0),
-    (-W + CORNER_CUT_SIZE, -H, 0),
-    # 左辺
-    (-W, -H / 2 + CORNER_CUT_SIZE, 0),
-    (-W, H / 2 - CORNER_CUT_SIZE, 0),
+    (-W + C + 2, H, 0),
+    (W - C - 2, H, 0),
+    (W, H / 2 - C, 0),
+    (W, -H / 2 + C, 0),
+    (W - C, -H, 0),
+    (-W + C, -H, 0),
+    (-W, -H / 2 + C, 0),
+    (-W, H / 2 - C, 0),
 ]
 
 VERTICES = []
@@ -77,8 +72,42 @@ base.cylinder_cut(
     target=main,
     radius=3.25,
     depth=BASE_PLATE_THICKNESS + 2,
-    #    location=(0, -.5, 0),
 )
+base.cylinder_cut(
+    target=main,
+    radius=1.6,
+    depth=BASE_PLATE_THICKNESS + 2,
+    location=(0, 7.5, 0),
+)
+base.cube_cut(
+    target=main,
+    scale=(1.3, 5, 5),
+    location=(0, BASE_PLATE_HEIGHT / 2, 0),
+)
+
+# claw1 ------------
+claw1 = base.cube_create(
+    scale=(2, 3, 3.5),
+)
+base.cube_cut(
+    target=claw1,
+    scale=(2, 3, 3.5),
+    location=(0, -1.5, -1.5),
+)
+claw1.location = (12, 5, 2.5)
+base.modifier_apply(obj=claw1, target=main)
+
+# claw2 ------------
+claw2 = base.cube_create(
+    scale=(2, 3, 3.5),
+)
+base.cube_cut(
+    target=claw2,
+    scale=(2, 3, 3.5),
+    location=(0, -1.5, -1.5),
+)
+claw2.location = (-12, 5, 2.5)
+base.modifier_apply(obj=claw2, target=main)
 
 main.location = (0, 8.25, -BASE_PLATE_THICKNESS / 2)
 
