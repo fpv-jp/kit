@@ -77,7 +77,7 @@ base.cylinder_cut(
     target=main,
     radius=1.8,
     depth=BASE_PLATE_THICKNESS + 2,
-    location=(0, 6.0, 0),
+    location=(0, 7.0, 0),
 )
 base.cube_cut(
     target=main,
@@ -94,7 +94,7 @@ base.cube_cut(
     scale=(3, 3, 4),
     location=(0, -1.5, -1.5),
 )
-claw1.location = (11.5, 5, 2.5)
+claw1.location = (9, 8.5, 2.5)
 base.modifier_apply(obj=claw1, target=main)
 
 # claw2 ------------
@@ -106,7 +106,7 @@ base.cube_cut(
     scale=(3, 3, 4),
     location=(0, -1.5, -1.5),
 )
-claw2.location = (-11.5, 5, 2.5)
+claw2.location = (-9, 8.5, 2.5)
 base.modifier_apply(obj=claw2, target=main)
 
 main.location = (0, 8.25, -BASE_PLATE_THICKNESS / 2)
