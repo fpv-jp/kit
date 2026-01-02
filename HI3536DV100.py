@@ -64,7 +64,7 @@ pos_z = (MAIN_DEPTH - MAIN_THICKNESS) / 2 + 3.8
 # main2 -----------------------------------
 main.location = (MAIN_WIDTH / 2, -MAIN_HEIGHT / 2, MAIN_DEPTH / 2 - MAIN_THICKNESS)
 pos = [
-    (9.2, 1.4, 11.1),  # DC
+    (9.2, 1.8, 11.1),  # DC
     (15.0, 15.6, 16.2),  # USB
     (16.4, 34.2, 12.6),  # ETH
 ]
